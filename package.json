@@ -1,5 +1,5 @@
 {
-  "name": "blender",
+  "name": "vitejs-vite-rozyr4",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "lucide-vue-next": "^0.363.0",
-    "radix-vue": "^1.6.0",
+    "radix-vue": "^1.6.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "vue": "^3.4.21"
