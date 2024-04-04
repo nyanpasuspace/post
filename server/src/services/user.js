@@ -21,8 +21,8 @@ class UserService {
         return target.destroy();
     }
 
-    async create({ name, password }) {
-        return await User.create(name, password);
+    async create(user) {
+        return await User.create(user);
     }
 }
 

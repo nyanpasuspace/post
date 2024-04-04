@@ -6,7 +6,6 @@ class UserController {
 
   async init() {
     this.userService = await userService();
-
     const router = Router();
     router.get("/", this.getAll);
     router.get("/:userId", this.getOne);

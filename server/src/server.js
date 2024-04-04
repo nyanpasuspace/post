@@ -9,9 +9,9 @@ const port = parseInt(process.env.PORT || '9000');
 const publicDir = resolve('public');
 
 async function bootstrap() {
+    server.use(await initMiddlewares());
     server.use(express.static(publicDir));
     server.use(await initControllers());
-    server.use(await initMiddlewares());
     await promisify(server.listen.bind(server, port))();
     console.log(`> Started on http://localhost:${port}`);
 }
