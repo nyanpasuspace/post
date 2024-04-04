@@ -13,7 +13,7 @@ module.exports = function loginMiddleware(
     whiteList[registerPath] = ['get']; 
     return (req, res, next) => {
         const { pathname } = parse(req.url);
-        if(req.session.logined && pathname == loginPath) {
+        if(req.session.logined && (pathname == loginPath || pathname == registerPath)) {
             res.redirect(homepagePath);
             return;
         }
