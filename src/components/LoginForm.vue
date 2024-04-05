@@ -1,18 +1,15 @@
 <script setup lang="ts">
   import axios from 'axios'
-  import bcrypt from 'bcryptjs' 
   import { GithubLogoIcon } from '@radix-icons/vue'
   import { Button } from '@/components/ui/button'
   import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
   } from '@/components/ui/card'
   import { Input } from '@/components/ui/input'
-  import { h, reactive } from 'vue'
-  import { Toast } from '@/components/ui/toast'
+  import { reactive } from 'vue'
   import {
     Tabs,
     TabsContent,
@@ -44,8 +41,25 @@
   })
 
   const formSchema = toTypedSchema(z.object({
-    username: z.string().min(2).max(15),
-    password: z.string().min(6).max(20),
+    username: z
+      .string()
+      .min(2, {
+        message: 'Username must be at least 2 characters.',
+      })
+      .max(15, {
+        message: 'Username must not be longer than 15 characters.',
+      }),
+    password: z
+      .string()
+      .min(6, {
+        message: 'Password must be at least 6 characters.',
+      })
+      .max(20, {
+        message: 'Password must not be longer than 20 characters.'
+      })
+      .regex(/^[a-zA-Z0-9~!@#%^&()_+=-]*$/, {
+        message: `Password must only contain letters, numbers, and ~!@#%^&()_+=-.`,
+      }),
   }))
 
   const { handleSubmit } = useForm({
@@ -54,15 +68,16 @@
   // http://localhost:9000/api
   const login = handleSubmit(async (value) => {
     // console.log(value);
-    var loginInfo = false;
+    var loginStatus;
+    var sessionId = '';
     await axios.post('http://localhost:9000/api/login', {
       username: value.username,
       password: value.password
     })
     .then(function (res: any) {
       if(res.status == 200) {
-        loginInfo = true;
-        localStorage.setItem('maoSessionId', res.data.sessionId);
+        loginStatus = 200;
+        sessionId = res.data.sessionId;
       }
       else {
         console.log('登录失败');
@@ -71,7 +86,8 @@
     .catch(function (error: any) {
       console.log(error);
     })
-    if(loginInfo) {
+    if(loginStatus == 200) {
+      localStorage.setItem('sessionId', sessionId);
       router.push({path:'/home'});
     }
     else {
@@ -81,7 +97,7 @@
 
   const register = handleSubmit(async (value) => {
     // console.log(value);
-    var registerInfo = false;
+    var registerStatus;
     var sessionId = '';
     await axios.post('http://localhost:9000/api/register', {
       username: value.username,
@@ -95,7 +111,7 @@
         })
         .then(function (res: any) {
           if(res.status == 200) {
-            registerInfo = true;
+            registerStatus = 200;
             sessionId = res.data.sessionId;
           }
           else {
@@ -110,12 +126,12 @@
     .catch(function (error: any) {
       console.log(error);
     })
-    if(registerInfo) {
-      localStorage.setItem('maoSessionId', sessionId);
+    if(registerStatus == 200) {
+      localStorage.setItem('sessionId', sessionId);
       router.push({path:'/home'});
     }
     else {
-      console.log(registerInfo);
+
     }
   })
 </script>
