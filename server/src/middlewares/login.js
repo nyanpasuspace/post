@@ -21,6 +21,7 @@ module.exports = function loginMiddleware(
             next();
             return;
         }
+        
         res.redirect(loginPath);
     }
 }
