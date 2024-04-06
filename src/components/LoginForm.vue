@@ -20,8 +20,7 @@
   import { useForm } from 'vee-validate'
   import { toTypedSchema } from '@vee-validate/zod'
   import * as z from 'zod'
-  import { vAutoAnimate } from '@formkit/auto-animate/vue'
-
+  import { useToast } from '@/components/ui/toast/use-toast'
   import {
     FormControl,
     FormField,
@@ -30,6 +29,7 @@
     FormMessage
   } from '@/components/ui/form'
   import router from '@/router/index'
+  const { toast } = useToast();
   const loginForm = reactive({
     username: '',
     password: ''
@@ -80,15 +80,24 @@
         sessionId = res.data.sessionId;
       }
       else {
-        console.log('登录失败');
+        loginStatus = res.status;
+        // console.log('登录失败');
       }
     })
     .catch(function (error: any) {
+      loginStatus = 401;
       console.log(error);
     })
     if(loginStatus == 200) {
       localStorage.setItem('sessionId', sessionId);
-      router.push({path:'/home'});
+      router.replace({path:'/home'});
+    }
+    else if(loginStatus == 401) {
+      toast({
+        description: 'The username or password is wrong.',
+        variant: 'destructive',
+        duration: 600 * 5
+      });
     }
     else {
 
@@ -115,23 +124,45 @@
             sessionId = res.data.sessionId;
           }
           else {
-            console.log('跳转登录失败');
+            registerStatus = res.status;
+            // console.log('跳转登录失败');
           }
         })
       }
       else {
-        console.log('注册失败');
+        registerStatus = res.status;
+        // console.log('注册失败');
       }
     })
     .catch(function (error: any) {
-      console.log(error);
+      registerStatus = 409;
+      console.log(error.name);
     })
     if(registerStatus == 200) {
       localStorage.setItem('sessionId', sessionId);
-      router.push({path:'/home'});
+      router.replace({path:'/home'});
     }
     else {
+      if(registerStatus == 409) {
+        // console.log(registerStatus);
+        // console.log('用户名已存在');
+        toast({
+          description: 'The username already exists.',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
+      }
+      else if(registerStatus == 500) {
+        // console.log('服务器错误');
+        toast({
+          description: 'Internal server error.',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
+      }
+      else {
 
+      }
     }
   })
 </script>
@@ -157,13 +188,13 @@
         <CardContent class="space-y-2">
           <form class="w-full space-y-3" @submit="login">
             <FormField v-model="loginForm.username" name="username">
-              <FormItem v-auto-animate>
+              <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input id="username" type="text" placeholder="username" v-model="loginForm.username"/>
                 </FormControl>
                 <FormMessage />
-              </FormItem v-auto-animate>
+              </FormItem>
             </FormField>
             <FormField v-model="loginForm.password" name="password">
               <FormItem>
@@ -213,13 +244,13 @@
         <CardContent class="space-y-2">
           <form class="w-full space-y-3" @submit="register">
             <FormField v-model="registerForm.username" name="username">
-              <FormItem v-auto-animate>
+              <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input id="username" type="text" placeholder="username" v-model="registerForm.username" />
                 </FormControl>
                 <FormMessage />
-              </FormItem v-auto-animate>
+              </FormItem>
             </FormField>
             <FormField v-model="registerForm.password" name="password">
               <FormItem>

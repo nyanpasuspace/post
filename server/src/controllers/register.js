@@ -28,15 +28,30 @@ class RegisterController {
                 username: username,
                 password: hashPassword
             };
-            const success = await this.userService.create(user);
-            if (!success) {
-                res.status(400);
+            try {
+                await this.userService.create(user);
+                res.status(200);
+                res.send({
+                    code: 200,
+                    message: '注册成功'
+                });
             }
-            res.status(200);
-            res.send({
-                code: 200,
-                message: '注册成功'
-            });
+            catch(error) {
+                if(error.name === 'SequelizeUniqueConstraintError') {
+                    res.status(409);
+                    res.send({
+                        code: 409,
+                        message: '用户已存在'
+                    })
+                }
+                else {
+                    res.status(500);
+                    res.send({
+                        code: 500,
+                        message: '服务器错误'
+                    })
+                }
+            } 
         }
         else {
             res.status(400);

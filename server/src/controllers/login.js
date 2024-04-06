@@ -12,7 +12,7 @@ class LoginController {
   post = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    var schemaInfo = false;
+    var schemaInfo = true;
     try {
       await createUserSchema().validate({ username, password });
     }
@@ -30,7 +30,7 @@ class LoginController {
           res.status(401);
           res.send({
             code: 401,
-            message: "登录失败",
+            message: "用户名不存在，登录失败",
           });
         }
         else {
@@ -50,7 +50,7 @@ class LoginController {
             res.status(401);
             res.send({
               code: 401,
-              message: "登录失败",
+              message: "密码错误，登录失败",
             });
           }
         }
