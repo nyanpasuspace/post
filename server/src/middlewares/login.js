@@ -1,16 +1,10 @@
 const { parse } = require('url');
-
-module.exports = function loginMiddleware(
-    homepagePath = '/',
-    loginPath = '/login.html',
-    whiteList = {
-        '/api/login': ['post'],
-        '/api/register': ['post']
-    }
-) {
-    const registerPath = '/register.html';
-    whiteList[loginPath] = ['get'];
-    whiteList[registerPath] = ['get']; 
+const { homepagePath, loginPath, registerPath, loginWhiteList } = require('../config');
+module.exports = function loginMiddleware() {
+    const whiteList = Object.assign({}, loginWhiteList, {
+        [loginPath]: ['get'],
+        [registerPath]: ['get']
+    });
     return (req, res, next) => {
         const { pathname } = parse(req.url);
         if(req.session.logined && (pathname == loginPath || pathname == registerPath)) {
@@ -21,7 +15,6 @@ module.exports = function loginMiddleware(
             next();
             return;
         }
-        
         res.redirect(loginPath);
     }
 }

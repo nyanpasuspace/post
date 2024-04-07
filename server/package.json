@@ -2,7 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node -r ./scripts/env src/server.js",
+    "start:prod": "cross-env NODE_ENV=production node-r ./scripts/env src/server.js",
+    "sequelize": "sequelize",
+    "sequelize:prod": "cross-env NODE_ENV=production sequelize"
   },
   "license": "MIT",
   "dependencies": {
@@ -11,8 +14,13 @@
     "connect-session-sequelize": "^7.1.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
+    "lodash.merge": "^4.6.2",
+    "path": "^0.12.7",
     "sequelize": "^6.37.2",
     "sqlite3": "^5.1.7",
     "yup": "^1.4.0"

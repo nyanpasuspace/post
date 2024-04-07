@@ -1,10 +1,4 @@
+const { db } = require('../../config');
 module.exports = {
-  development: {
-    dialect: 'sqlite',
-    storage: 'database/index.db',
-    define: {
-      underscored: true,
-    },
-    migrationStorageTableName: 'sequelize_meta',
-  },
-};
+  [process.env.NODE_ENV || 'development']: db 
+}; 

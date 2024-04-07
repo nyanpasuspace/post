@@ -46,7 +46,6 @@ class LoginController {
               sessionId: req.session.id
             });
           } else {
-            req.session.logined = false;
             res.status(401);
             res.send({
               code: 401,
@@ -57,7 +56,6 @@ class LoginController {
       })
       .catch(function (error) {
         console.error("登录遇到错误:", error);
-        req.session.logined = false;
         res.status(401);
         res.send({
           code: 401,
