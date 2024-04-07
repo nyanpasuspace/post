@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import axios from 'axios'
+  import { instance } from '@/api/instance'
   import { GithubLogoIcon } from '@radix-icons/vue'
   import { Button } from '@/components/ui/button'
   import {
@@ -70,7 +70,7 @@
     // console.log(value);
     var loginStatus;
     var sessionId = '';
-    await axios.post('http://localhost:9000/api/login', {
+    await instance.post('/login', {
       username: value.username,
       password: value.password
     })
@@ -112,13 +112,13 @@
     // console.log(value);
     var registerStatus;
     var sessionId = '';
-    await axios.post('http://localhost:9000/api/register', {
+    await instance.post('/register', {
       username: value.username,
       password: value.password
     })
     .then(async function (res: any) {
       if(res.status == 200) {
-        await axios.post('http://localhost:9000/api/login', {
+        await instance.post('/login', {
           username: value.username,
           password: value.password
         })

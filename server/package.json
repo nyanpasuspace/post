@@ -2,8 +2,8 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "start": "node -r ./scripts/env src/server.js",
-    "start:prod": "cross-env NODE_ENV=production node-r ./scripts/env src/server.js",
+    "start": "node -r ./scripts/env src/server.js | bunyan -o short -l info",
+    "start:prod": "cross-env NODE_ENV=production node-r ./scripts/env src/server.js | bunyan -o short -l info",
     "sequelize": "sequelize",
     "sequelize:prod": "cross-env NODE_ENV=production sequelize"
   },
