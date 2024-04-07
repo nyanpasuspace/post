@@ -14,5 +14,5 @@ body {
 } 
 
 #app {
-  @apply w-full flex items-center justify-center px-2;
+  @apply w-full flex items-center justify-center;
 }

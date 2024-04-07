@@ -22,6 +22,10 @@ module.exports = {
       },
     },
     extend: {
+      lineHeight: {
+        'extra-loose': '2.5',
+        '16': '64px'
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

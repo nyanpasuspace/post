@@ -1,8 +1,8 @@
 <!-- 登录后的主页 /home -->
 <script setup lang="ts">
-import NavBar from '@/components/NavBar.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import NavBar from '@/components/NavBar.vue';
 
 const route = useRoute();
 const currentPath = ref(route.path);
