@@ -1,5 +1,6 @@
 const merge = require("lodash.merge");
-
+const logger = require('../utils/logger');
+const { logging } = logger;
 const config = {
   default: {
     sessionCookieSecret: "842d918ced1888c65a650f993077c3d36b8f114d",
@@ -15,6 +16,8 @@ const config = {
     db: {
       dialect: "sqlite",
       storage: "database/dev.db",
+      benchmark: true,
+      logging: logging(logger, 'debug'),
       define: {
         underscored: true,
       },

@@ -2,27 +2,12 @@ const { User } = require('../models');
 
 class UserService {
     async init() {}
-    async find({ id, pageIndex = 0, pageSize = 10 }) {
-        if(id) {
-            return [await User.findByPk(id)];
-        }
-
-        return await User.findAll({
-            offset: pageIndex * pageSize,
-            limit: pageSize,
-        });
+    async find({ id, logging }) {
+        return [await User.findByPk(id, { logging })];
     }
 
-    async remove({ id }) {
-        const target = await User.findByPk(id);
-        if(!target) {
-            return false;
-        }
-        return target.destroy();
-    }
-
-    async create(user) {
-        return await User.create(user);
+    async create({ user, logging }) {
+        return await User.create(user, { logging });
     }
 }
 
