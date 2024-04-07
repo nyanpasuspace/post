@@ -1,4 +1,4 @@
-// src/middlewares/trace.js
+// sql 日志
 const { v4: uuid } = require('uuid');
 const morgan = require('morgan');
 const onFinished = require('on-finished');

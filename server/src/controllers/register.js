@@ -15,6 +15,7 @@ class RegisterController {
     post = async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
+        const { logging } = req;
         var schemaInfo = true;
         try {
             await createUserSchema().validate({ username, password });
@@ -29,7 +30,7 @@ class RegisterController {
                 password: hashPassword
             };
             try {
-                await this.userService.create(user);
+                await this.userService.create({ user, logging });
                 res.status(200);
                 res.send({
                     code: 200,
