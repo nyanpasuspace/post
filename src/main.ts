@@ -7,7 +7,6 @@ import axios from "axios";
 
 const app = createApp(App);
 router.beforeEach(async (to, from, next) => {
-    // TODO 处理各种路径
     if(to.meta.requireAuth) {
         if(localStorage.getItem('sessionId')) {
             await axios.get('http://localhost:9000/api/session', {
