@@ -7,7 +7,7 @@
     CardContent,
     CardHeader,
     CardTitle,
-  } from '@/components/ui/card'
+  } from '@/components/ui/card' 
   import { Input } from '@/components/ui/input'
   import { reactive } from 'vue'
   import {
@@ -100,7 +100,11 @@
       });
     }
     else {
-
+      toast({
+        description: 'The username or password is wrong.',
+        variant: 'destructive',
+        duration: 600 * 5
+      });
     }
   })
 
@@ -161,7 +165,11 @@
         });
       }
       else {
-
+        toast({
+          description: 'Internal server error.',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
       }
     }
   })
