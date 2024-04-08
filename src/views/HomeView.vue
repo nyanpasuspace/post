@@ -3,6 +3,7 @@
 import NavBar from '@/components/NavBar.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import Footer from '@/components/Footer.vue';
 
 const route = useRoute();
 const currentPath = ref(route.path);
@@ -15,12 +16,9 @@ watch(route, () => {
 <template>
   <div class="flex box-border min-h-screen w-full flex-col bg-background">
     <NavBar />
-    <main>
-
+    <main class="min-h-[500px]">
     </main>
-    <footer>
-
-    </footer>
+    <Footer />
   </div>
 </template>
 

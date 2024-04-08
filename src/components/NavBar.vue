@@ -30,8 +30,7 @@ const switchTheme = () => {
 
 <template>
 	<header class="w-full flex justify-center">
-		<nav
-			class="box-border justify-between flex flex-row mx-0 lg:mx-auto items-center h-16 w-full max-w-3xl lg:w-5/12">
+		<nav class="box-border justify-between flex flex-row items-center h-16 mx-0 lg:mx-auto  w-full lg:w-7/12">
 			<div class="flex my-0 mx-[16px] justify-center items-center">
 				<router-link class="block text-2xl font-bold" to="/">
 					Post
