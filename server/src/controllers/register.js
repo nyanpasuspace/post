@@ -24,10 +24,12 @@ class RegisterController {
             schemaInfo = false;
         }
         if(schemaInfo) {
+            const defaultAvatarURL = "http://localhost:9000/uploads/avatars/avatar.png"
             const hashPassword = bcrypt.hashSync(req.body.password, 10);
             const user = {
                 username: username,
-                password: hashPassword
+                password: hashPassword,
+                avatar_url: defaultAvatarURL
             };
             try {
                 await this.userService.create({ user, logging });
