@@ -36,7 +36,8 @@ class LoginController {
         else {
           if (bcrypt.compareSync(password, data.dataValues.password)) {
             req.session.user = {
-              username: username
+              username: username,
+              id: data.dataValues.id
             };
             req.session.logined = true;
             res.status(200);

@@ -29,7 +29,9 @@ class RegisterController {
             const user = {
                 username: username,
                 password: hashPassword,
-                avatar_url: defaultAvatarURL
+                avatar_url: defaultAvatarURL,
+                message: '',
+                config: '{"UserConfig":{"platform":{"mastodon":{"Instance":"","Token":""}},"isSendWorld":true,"sendTime":100,"isLive":true}}'
             };
             try {
                 await this.userService.create({ user, logging });

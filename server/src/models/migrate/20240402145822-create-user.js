@@ -22,6 +22,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      message: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      config: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
