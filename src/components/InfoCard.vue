@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-
+import router from '@/router';
 const logout = (() => {
     localStorage.removeItem('sessionId');
-    location.reload();
+    router.push('/');
 });
 
 const editProfile = (() => {
