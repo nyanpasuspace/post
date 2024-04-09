@@ -45,7 +45,8 @@ class LoginController {
               res.send({
                 code: 200,
                 message: "登录成功",
-                sessionId: req.session.id
+                sessionId: req.session.id,
+                userid: data.dataValues.id
               });
             } else {
               res.status(401);

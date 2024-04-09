@@ -112,6 +112,7 @@
     // console.log(value);
     var registerStatus;
     var sessionId = '';
+    var userId = '';
     await instance.post('/register', {
       username: value.username,
       password: value.password
@@ -126,10 +127,10 @@
           if(res.status == 200) {
             registerStatus = 200;
             sessionId = res.data.sessionId;
+            userId = res.data.userid;
           }
           else {
             registerStatus = res.status;
-            // console.log('跳转登录失败');
           }
         })
       }
@@ -144,6 +145,7 @@
     })
     if(registerStatus == 200) {
       localStorage.setItem('sessionId', sessionId);
+      localStorage.setItem('userId', userId);
       router.replace({path:'/home'});
     }
     else {

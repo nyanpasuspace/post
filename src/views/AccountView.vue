@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import MastodonSetting from '@/components/MastodonSetting.vue';
 import { Input } from '@/components/ui/input';
 import Footer from '@/components/Footer.vue';
+import { getUserInfo } from "./api/getUserInfo.ts";
 import {
   Select,
   SelectContent,
@@ -43,6 +44,7 @@ const sendTime = 0;
 const setTimmer = (() => {
   console.log(sendTime)
 })
+// const userInfo = getUserInfo();
 </script>
 
 <template>

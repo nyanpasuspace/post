@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import router from '@/router';
 const logout = (() => {
     localStorage.removeItem('sessionId');
+    localStorage.removeItem('userId');
     router.push('/');
 });
 

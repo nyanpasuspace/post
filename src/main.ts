@@ -4,10 +4,9 @@ import "./assets/index.css";
 import App from "./App.vue";
 import router from "./router/index.js";
 import { instance } from '@/api/instance'
-import { getUserInfo } from "./api/getUserInfo.js";
+
 const app = createApp(App);
 router.beforeEach(async (to, from, next) => {
-    getUserInfo(1);
     if(to.meta.requireAuth) {
         if(localStorage.getItem('sessionId')) {
             await instance.get('/session', {
