@@ -34,6 +34,8 @@ class RegisterController {
                     message: '',
                     mastodon_instance: '',
                     mastodon_token: '',
+                    send_time: 36500,
+                    is_live: true,
                 };
                 try {
                     await this.userService.create({ user, logging });
