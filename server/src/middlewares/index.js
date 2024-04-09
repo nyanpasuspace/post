@@ -1,7 +1,7 @@
 // 中间件
 const { Router } = require('express');
 const cookieParser = require('cookie-parser');
-const loginMiddleware = require('./login');
+const pathMiddleware = require('./path');
 const sessionMiddleware = require('./session');
 const { sessionCookieSecret } = require('../config');
 const traceMiddleware = require('./trace');
@@ -10,6 +10,6 @@ module.exports = async function initMiddlewares() {
     router.use(traceMiddleware());
     router.use(cookieParser(sessionCookieSecret));
     router.use(sessionMiddleware());
-    router.use(loginMiddleware());
+    router.use(pathMiddleware());
     return router;
 }

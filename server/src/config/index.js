@@ -8,10 +8,12 @@ const config = {
     homepagePath: "/",
     loginPath: "/login.html",
     registerPath: '/register.html',
-    loginWhiteList: {
+    apiList: {
       "/api/login": ["post"],
       "/api/register": ["post"],
       "/api/session": ["get"],
+      "/api/user/:userId": ['get'],
+      "/api/config": ['get'],
     },
     db: {
       dialect: "sqlite",

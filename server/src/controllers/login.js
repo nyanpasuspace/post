@@ -10,65 +10,75 @@ class LoginController {
   }
 
   post = async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    var schemaInfo = true;
     try {
-      await createUserSchema().validate({ username, password });
-    }
-    catch(e) {
-        schemaInfo = false;
-    }
-    if(schemaInfo) {
-      User.findOne({
-        where: {
-          username: username,
-        },
-      })
-      .then(function (data) {
-        if (!data) {
-          res.status(401);
-          res.send({
-            code: 401,
-            message: "用户名不存在，登录失败",
-          });
-        }
-        else {
-          if (bcrypt.compareSync(password, data.dataValues.password)) {
-            req.session.user = {
-              username: username,
-              id: data.dataValues.id
-            };
-            req.session.logined = true;
-            res.status(200);
-            res.send({
-              code: 200,
-              message: "登录成功",
-              sessionId: req.session.id
-            });
-          } else {
+      const username = req.body.username;
+      const password = req.body.password;
+      var schemaInfo = true;
+      try {
+        await createUserSchema().validate({ username, password });
+      }
+      catch(e) {
+          schemaInfo = false;
+      }
+      if(schemaInfo) {
+        User.findOne({
+          where: {
+            username: username,
+          },
+        })
+        .then(function (data) {
+          if (!data) {
             res.status(401);
             res.send({
               code: 401,
-              message: "密码错误，登录失败",
+              message: "用户名不存在，登录失败",
             });
           }
-        }
-      })
-      .catch(function (error) {
-        console.error("登录遇到错误:", error);
-        res.status(401);
-        res.send({
-          code: 401,
-          message: "登录失败",
+          else {
+            if (bcrypt.compareSync(password, data.dataValues.password)) {
+              req.session.user = {
+                username: username,
+                id: data.dataValues.id
+              };
+              req.session.logined = true;
+              res.status(200);
+              res.send({
+                code: 200,
+                message: "登录成功",
+                sessionId: req.session.id
+              });
+            } else {
+              res.status(401);
+              res.send({
+                code: 401,
+                message: "密码错误，登录失败",
+              });
+            }
+          }
+        })
+        .catch(function (error) {
+          console.error("登录遇到错误:", error);
+          res.status(401);
+          res.send({
+            code: 401,
+            message: "登录失败",
+          });
         });
-      });
+      }
+      else {
+        res.status(400);
+        res.send({
+          code: 400,
+          message: '格式错误'
+        })
+      }
     }
-    else {
+    catch(error) {
+      console.log(error.name);
       res.status(400);
       res.send({
         code: 400,
-        message: '格式错误'
+        message: '服务器错误'
       })
     }
   };

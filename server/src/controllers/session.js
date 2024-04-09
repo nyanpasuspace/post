@@ -8,32 +8,42 @@ class SessionController {
   }
 
   check = async (req, res) => {
-    const sessionId = req.query.sessionId;
-    if (sessionId) {
-      Session.findOne({
-        where: {
-          sid: sessionId,
-        },
-      }).then(function (data) {
-        if (!data) {
-          res.status(401);
-          res.send({
-            code: 401,
-            message: "Unauthorized??",
-          });
-        } else {
-          res.status(200);
-          res.send({
-            code: 200,
-            message: "Pong!",
-          });
-        }
-      });
-    } else {
-      res.status(401);
+    try {
+      const sessionId = req.query.sessionId;
+      if (sessionId) {
+        Session.findOne({
+          where: {
+            sid: sessionId,
+          },
+        }).then(function (data) {
+          if (!data) {
+            res.status(401);
+            res.send({
+              code: 401,
+              message: "Unauthorized??",
+            });
+          } else {
+            res.status(200);
+            res.send({
+              code: 200,
+              message: "Pong!",
+            });
+          }
+        });
+      } else {
+        res.status(401);
+        res.send({
+          code: 401,
+          message: "Unauthorized",
+        });
+      }
+    }
+    catch(error) {
+      console.log(error.name);
+      res.status(400);
       res.send({
-        code: 401,
-        message: "Unauthorized",
+        code: 400,
+        message: "服务器错误",
       });
     }
   };

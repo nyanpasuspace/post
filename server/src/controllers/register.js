@@ -20,49 +20,61 @@ class RegisterController {
         try {
             await createUserSchema().validate({ username, password });
         }
-        catch(e) {
+        catch(error) {
             schemaInfo = false;
         }
-        if(schemaInfo) {
-            const defaultAvatarURL = "http://localhost:9000/uploads/avatars/avatar.png"
-            const hashPassword = bcrypt.hashSync(req.body.password, 10);
-            const user = {
-                username: username,
-                password: hashPassword,
-                avatar_url: defaultAvatarURL,
-                message: '',
-                config: '{"UserConfig":{"platform":{"mastodon":{"Instance":"","Token":""}},"isSendWorld":true,"sendTime":100,"isLive":true}}'
-            };
-            try {
-                await this.userService.create({ user, logging });
-                res.status(200);
-                res.send({
-                    code: 200,
-                    message: '注册成功'
-                });
+        try {
+            if(schemaInfo) {
+                const defaultAvatarURL = "http://localhost:9000/uploads/avatars/avatar.png"
+                const hashPassword = bcrypt.hashSync(req.body.password, 10);
+                const user = {
+                    username: username,
+                    password: hashPassword,
+                    avatar_url: defaultAvatarURL,
+                    message: '',
+                    mastodon_instance: '',
+                    mastodon_token: '',
+                };
+                try {
+                    await this.userService.create({ user, logging });
+                    res.status(200);
+                    res.send({
+                        code: 200,
+                        message: '注册成功'
+                    });
+                }
+                catch(error) {
+                    if(error.name === 'SequelizeUniqueConstraintError') {
+                        res.status(409);
+                        res.send({
+                            code: 409,
+                            message: '用户已存在'
+                        })
+                    }
+                    else {
+                        console.log(error.name);
+                        res.status(400);
+                        res.send({
+                            code: 400,
+                            message: '服务器错误'
+                        })
+                    }
+                } 
             }
-            catch(error) {
-                if(error.name === 'SequelizeUniqueConstraintError') {
-                    res.status(409);
-                    res.send({
-                        code: 409,
-                        message: '用户已存在'
-                    })
-                }
-                else {
-                    res.status(500);
-                    res.send({
-                        code: 500,
-                        message: '服务器错误'
-                    })
-                }
-            } 
+            else {
+                res.status(400);
+                res.send({
+                    code: 400,
+                    message: '格式错误'
+                })
+            }
         }
-        else {
+        catch(error) {
+            console.log(error.name);
             res.status(400);
             res.send({
                 code: 400,
-                message: '格式错误'
+                message: '服务器错误'
             })
         }
     }

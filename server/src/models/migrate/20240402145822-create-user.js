@@ -26,7 +26,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      config: {
+      mastodon_instance: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      mastodon_token: {
         allowNull: false,
         type: Sequelize.STRING
       },

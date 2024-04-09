@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     password: Sequelize.STRING,
     avatar_url: Sequelize.STRING,
     message: Sequelize.STRING,
-    config: Sequelize.STRING,
+    mastodon_instance: Sequelize.STRING,
+    mastodon_token: Sequelize.STRING,
     created_at: Sequelize.DATE,
     updated_at: Sequelize.DATE
   },
