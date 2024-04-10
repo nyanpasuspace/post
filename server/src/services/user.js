@@ -9,6 +9,16 @@ class UserService {
     async create({ user, logging }) {
         return await User.create(user, { logging });
     }
+
+    async modify({ id, values, logging }) {
+        const target = await User.findByPk(id);
+        if(!target) {
+            return null;
+        }
+        target.set(values);
+        return await target.save({ logging });
+    }
+
 }
 
 // 单例模式

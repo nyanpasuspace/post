@@ -9,6 +9,7 @@ class UserController {
     this.userService = await userService();
     const router = Router();
     router.get("/:userId", this.getOne);
+    router.put("/:userId", this.modifyOne);
     return router;
   }
 
@@ -72,6 +73,66 @@ class UserController {
       });
     }
   };
+
+  modifyOne = async (req, res) => {
+    try {
+      const { logging } = req;
+      const userId = req.params.userId;
+      const sessionId = req.body.sessionId;
+      const updateData = {};
+      const sessionData = await Session.findOne({
+        where: {
+          sid: sessionId,
+        },
+      })
+      .then(function (data) {
+        if(!data) {
+          return null;
+        }
+        else {
+          return data.dataValues.data;
+        }
+      });
+      if(req.body.data.message) {
+        updateData.message = req.body.data.message;
+      }
+      if(req.body.data.isSendToWorld) {
+        updateData.isSendToWorld = req.body.data.isSendToWorld;
+      }
+      if(req.body.data.mastodonInstance) {
+        updateData.mastodonInstance = req.body.data.mastodonInstance;
+      }
+      if(req.body.data.mastodonToken) {
+        updateData.mastodonToken = req.body.data.mastodonToken;
+      }
+      if(req.body.data.sendTime) {
+        updateData.sendTime = req.body.data.sendTime;
+      }
+      if(await this.userService.modify({
+        id: userId,
+        values: updateData,
+        logging: logging 
+      })) {
+        res.status(200).send({
+          code: 200,
+          message: '修改成功'
+        });
+      }
+      else {
+        res.status(400).send({
+          code: 400,
+          message: '请求错误'
+        });
+      }
+    }
+    catch(error) {
+      console.log(error.message);
+      res.status(400).send({
+        code: 400,
+        message: '请求错误'
+      });
+    }
+  }
 }
 
 module.exports = async () => {

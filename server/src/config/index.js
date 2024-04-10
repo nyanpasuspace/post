@@ -12,7 +12,7 @@ const config = {
       "/api/login": ["post"],
       "/api/register": ["post"],
       "/api/session": ["get"],
-      "/api/user/:userId": ['get'],
+      "/api/user/:userId": ['get', 'put'],
       "/api/config": ['get'],
     },
     db: {
