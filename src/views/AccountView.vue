@@ -121,11 +121,11 @@ export default {
         <Separator class="my-2" />
       </div>
       <div class="flex flex-col mx-[16px] my-2">
-        <div class="grid w-full gap-3">
+        <div class="flex flex-col w-full gap-3">
           <!-- 发送消息设置 -->
           <Label for="message">预设消息</Label>
           <Textarea id="message" :placeholder="userInfo.data[0].message" :disabled="messageIsDisabled" />
-          <div class="h-14 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
+          <div class="h-12 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
               <Checkbox id="terms" />
               <Label for="terms" class="truncate">
