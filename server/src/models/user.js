@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     mastodon_instance: Sequelize.STRING,
     mastodon_token: Sequelize.STRING,
     send_time: Sequelize.NUMBER,
+    is_send_to_world: Sequelize.BOOLEAN,
     is_live: Sequelize.BOOLEAN,
     created_at: Sequelize.DATE,
     updated_at: Sequelize.DATE

@@ -35,6 +35,7 @@ class RegisterController {
                     mastodon_instance: '',
                     mastodon_token: '',
                     send_time: 36500,
+                    is_send_to_world: false,
                     is_live: true,
                 };
                 try {
