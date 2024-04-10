@@ -7,9 +7,10 @@ export async function getUserInfo(id: any) {
         }
     })
     .then((res: any) => {
-        console.log(res.data);
+        return res.data;
     })
     .catch((error: any) => {
         console.log(error.name);
+        return null;
     });
 }

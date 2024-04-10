@@ -2,6 +2,11 @@
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import router from '@/router';
+defineProps<{ 
+    username: string,
+    status: string,
+    avatarUrl: string
+}>()
 const logout = (() => {
     localStorage.removeItem('sessionId');
     localStorage.removeItem('userId');
@@ -17,19 +22,19 @@ const editProfile = (() => {
     <div class="flex items-center space-x-2 pl-2 pt-2 pb-2 pr-0 w-full h-18 rounded-md text-foreground">
         <div class="flex h-14 w-14 items-center justify-center">
             <Avatar class="w-full h-auto">
-                <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage :src="avatarUrl" alt="@radix-vue" />
+                <AvatarFallback>{{ username }}</AvatarFallback>
             </Avatar>
         </div>
         <div class="w-[150px] h-14 flex flex-col justify-between">
             <div class="h-7 align-top p-1 text-foreground text-lg align-bottom">
                 <span>
-                    Username
+                    {{ username }}
                 </span>
             </div>
             <div class="h-7 align-top p-1 text-slate-400 text-sm align-baseline">
                 <span>
-                    Status
+                    {{ status }}
                 </span>
             </div>
         </div>

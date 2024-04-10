@@ -1,18 +1,5 @@
 <!-- 登录后的主页 /home -->
-<script setup lang="ts">
-import { ref, watch } from 'vue';
-import { Button } from '@/components/ui/button';
-import { useRoute } from 'vue-router';
-import NavBar from '@/components/NavBar.vue';
-import { Separator } from '@/components/ui/separator';
-import InfoCard from '@/components/InfoCard.vue';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import MastodonSetting from '@/components/MastodonSetting.vue';
-import { Input } from '@/components/ui/input';
-import Footer from '@/components/Footer.vue';
-import { getUserInfo } from "./api/getUserInfo.ts";
+<script lang="ts">
 import {
   Select,
   SelectContent,
@@ -21,47 +8,123 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-const route = useRoute();
-const currentPath = ref(route.path);
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import NavBar from '@/components/NavBar.vue';
+import InfoCard from '@/components/InfoCard.vue';
+import MastodonSetting from '@/components/MastodonSetting.vue';
+import Footer from '@/components/Footer.vue';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { instance } from '@/api/instance';
+
 const messageIsDisabled = ref(true);
-const sendTriggers: any = {
-  'Mastodon': 'mastodon',
-  'Twitter': 'twitter',
+const sendTriggers: Record<string, string> = {
+  Mastodon: 'mastodon',
+  Twitter: 'twitter',
 };
-const sendTriggerValue: any = ref('Mastodon');
-watch(route, () => {
-  currentPath.value = route.path;
-});
-const editMessage = (() => {
-  messageIsDisabled.value = false;
-  // TODO 编辑 message
-})
-const saveMessage = (() => {
-  messageIsDisabled.value = true;
-  // TODO 保存 message
-})
-const sendTime = 0;
-const setTimmer = (() => {
-  console.log(sendTime)
-})
-// const userInfo = getUserInfo();
+const sendTriggerValue = ref('Mastodon');
+const sendTime = ''
+
+export default {
+  setup() {
+    const route = useRoute();
+    const currentPath = ref(route.path);
+
+    watch(route, () => {
+      currentPath.value = route.path;
+    });
+    return {
+      currentPath,
+      messageIsDisabled,
+      sendTriggers,
+      sendTriggerValue,
+      sendTime,
+    };
+  },
+  data() {
+    return {
+      userInfo: null as any,
+      status: '',
+    }
+  },
+  mounted() {
+    const userId = localStorage.getItem('userId');
+    instance.get(`/user/${userId}`, {
+      params: {
+        sessionId: localStorage.getItem('sessionId')
+      }
+    })
+    .then((res: any) => {
+      this.userInfo = res.data;
+      if(this.userInfo) {
+        if(this.userInfo.data[0].is_live) {
+          this.status = 'online';
+        }
+        else {
+          this.status = 'offline'
+        }
+        this.sendTime = this.userInfo.data[0].send_time;
+      }
+    })
+    .catch((error: any) => {
+      console.log(error.name);
+      this.userInfo = null;
+    });
+  },
+  methods: {
+    editMessage: () => {
+      messageIsDisabled.value = false;
+    },
+
+    saveMessage: () => {
+      messageIsDisabled.value = true;
+    },
+
+    setTimmer: () => {
+
+    },
+  },
+  components: {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Button,
+    Separator,
+    Textarea,
+    Label,
+    Checkbox,
+    Input,
+    NavBar,
+    InfoCard,
+    MastodonSetting,
+    Footer
+  }
+}
 </script>
 
 <template>
-  <div class="flex box-border min-h-screen w-full flex-col">
+  <div v-if="userInfo" class="flex box-border min-h-screen w-full flex-col">
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
       <div class="mx-[16px]">
-        <InfoCard />
+        <InfoCard :username="userInfo.data[0].username" :status="status" :avatarUrl="userInfo.data[0].avatar_url" />
       </div>
       <div class="mx-[16px]">
         <Separator class="my-2" />
       </div>
       <div class="flex flex-col mx-[16px] my-2">
-        <div class="grid w-full gap-2">
+        <div class="grid w-full gap-3">
           <!-- 发送消息设置 -->
           <Label for="message">预设消息</Label>
-          <Textarea id="message" placeholder="你好，世界" :disabled="messageIsDisabled" />
+          <Textarea id="message" :placeholder="userInfo.data[0].message" :disabled="messageIsDisabled" />
           <div class="h-14 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
               <Checkbox id="terms" />
@@ -107,7 +170,7 @@ const setTimmer = (() => {
           <div class="flex flex-col pt-[10px]" v-if="sendTriggers[sendTriggerValue] == 'mastodon'">
             <!-- 实例 URL 和用户 Token -->
             <!-- TODO 授权使用 -->
-            <MastodonSetting />
+            <MastodonSetting :mastodonInstance="userInfo.data[0].mastodon_instance" :mastodonToken="userInfo.data[0].mastodon_token" />
           </div>
           <!-- <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
             twitter
@@ -123,7 +186,7 @@ const setTimmer = (() => {
               发送时间设置
             </Label>
             <div class="flex pt-[10px]">
-              <Input class="w-full pr-[33px]" id="sendTime" type="text" placeholder="999" v-model="sendTime" />
+              <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfo.data[0].send_time" v-model="sendTime" />
               <div class="relative text-muted-foreground top-[8px] -left-[30px]">天</div>
               <Button class="ml-0" @click="setTimmer">
                 保存
@@ -131,6 +194,15 @@ const setTimmer = (() => {
             </div>
           </div>
         </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+  <div v-else class="flex box-border min-h-screen w-full flex-col">
+    <NavBar />
+    <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
+      <div class="flex h-[100px] mx-auto items-center">
+        Loading...
       </div>
     </main>
     <Footer />
