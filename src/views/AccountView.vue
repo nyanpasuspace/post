@@ -21,6 +21,7 @@ import Footer from '@/components/Footer.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
+import { Loader2 } from 'lucide-vue-next'
 
 const messageIsDisabled = ref(true);
 const sendTriggers: Record<string, string> = {
@@ -28,7 +29,16 @@ const sendTriggers: Record<string, string> = {
   Twitter: 'twitter',
 };
 const sendTriggerValue = ref('Mastodon');
-const sendTime = ''
+const userInfoForm = {
+  username: '',
+  avatarUrl: '',
+  message: '',
+  isSendToWorld: false,
+  mastodonInstance: '',
+  mastodonToken: '',
+  sendTime: 0,
+  status: ''
+}
 
 export default {
   setup() {
@@ -43,13 +53,13 @@ export default {
       messageIsDisabled,
       sendTriggers,
       sendTriggerValue,
-      sendTime,
     };
   },
   data() {
     return {
       userInfo: null as any,
       status: '',
+      userInfoForm,
     }
   },
   mounted() {
@@ -63,12 +73,18 @@ export default {
       this.userInfo = res.data;
       if(this.userInfo) {
         if(this.userInfo.data[0].is_live) {
-          this.status = 'online';
+          this.userInfoForm.status = 'online';
         }
         else {
           this.status = 'offline'
         }
-        this.sendTime = this.userInfo.data[0].send_time;
+        this.userInfoForm.username = this.userInfo.data[0].username;
+        this.userInfoForm.avatarUrl = this.userInfo.data[0].avatar_url;
+        this.userInfoForm.message = this.userInfo.data[0].message;
+        this.userInfoForm.isSendToWorld = this.userInfo.data[0].is_send_to_world;
+        this.userInfoForm.mastodonInstance = this.userInfo.data[0].mastodon_instance;
+        this.userInfoForm.mastodonToken = this.userInfo.data[0].mastodon_token;
+        this.userInfoForm.sendTime = this.userInfo.data[0].send_time;
       }
     })
     .catch((error: any) => {
@@ -88,6 +104,9 @@ export default {
     setTimmer: () => {
 
     },
+    setSendToWorldStatus: () => {
+      console.log(typeof(userInfoForm.avatarUrl));
+    }
   },
   components: {
     Select,
@@ -97,6 +116,7 @@ export default {
     SelectTrigger,
     SelectValue,
     Button,
+    Loader2,
     Separator,
     Textarea,
     Label,
@@ -115,7 +135,7 @@ export default {
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
       <div class="mx-[16px]">
-        <InfoCard :username="userInfo.data[0].username" :status="status" :avatarUrl="userInfo.data[0].avatar_url" />
+        <InfoCard :username="userInfoForm.username" :status="status" :avatarUrl="userInfoForm.avatarUrl" />
       </div>
       <div class="mx-[16px]">
         <Separator class="my-2" />
@@ -124,10 +144,10 @@ export default {
         <div class="flex flex-col w-full gap-3">
           <!-- 发送消息设置 -->
           <Label for="message">预设消息</Label>
-          <Textarea id="message" :placeholder="userInfo.data[0].message" :disabled="messageIsDisabled" />
+          <Textarea id="message" :placeholder="userInfoForm.message" :disabled="messageIsDisabled" v-model="userInfoForm.message"/>
           <div class="h-12 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
-              <Checkbox id="terms" />
+              <Checkbox id="terms" :checked="userInfoForm.isSendToWorld" @change="setSendToWorldStatus()" />
               <Label for="terms" class="truncate">
                 发送到此站世界线
               </Label>
@@ -170,7 +190,7 @@ export default {
           <div class="flex flex-col pt-[10px]" v-if="sendTriggers[sendTriggerValue] == 'mastodon'">
             <!-- 实例 URL 和用户 Token -->
             <!-- TODO 授权使用 -->
-            <MastodonSetting :mastodonInstance="userInfo.data[0].mastodon_instance" :mastodonToken="userInfo.data[0].mastodon_token" />
+            <MastodonSetting :mastodonInstance="userInfoForm.mastodonInstance" :mastodonToken="userInfoForm.mastodonToken" />
           </div>
           <!-- <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
             twitter
@@ -186,7 +206,7 @@ export default {
               发送时间设置
             </Label>
             <div class="flex pt-[10px]">
-              <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfo.data[0].send_time" v-model="sendTime" />
+              <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfoForm.sendTime" v-model="userInfoForm.sendTime" />
               <div class="relative text-muted-foreground top-[8px] -left-[30px]">天</div>
               <Button class="ml-0" @click="setTimmer">
                 保存
@@ -202,7 +222,7 @@ export default {
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
       <div class="flex h-[100px] mx-auto items-center">
-        Loading...
+        <Loader2 class="w-4 h-4 mr-2 animate-spin" />
       </div>
     </main>
     <Footer />
