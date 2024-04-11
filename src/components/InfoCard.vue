@@ -2,6 +2,17 @@
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import router from '@/router';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  // DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 defineProps<{ 
     username: string,
     status: string,
@@ -15,6 +26,9 @@ const logout = (() => {
 
 const editProfile = (() => {
     // TODO 弹出弹窗编辑基本资料
+})
+const saveProfile = (() => {
+
 })
 </script>
 
@@ -39,9 +53,40 @@ const editProfile = (() => {
             </div>
         </div>
         <div class="h-14 grow flex flex-row pl-2 space-x-4 justify-end items-center text-center">
-            <Button variant="secondary" @click="editProfile">
-                编辑
-            </Button>
+            <Dialog>
+                <DialogTrigger as-child>
+                    <Button variant="secondary" @click="editProfile">
+                        编辑
+                    </Button>
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>编辑用户名和头像</DialogTitle>
+                    <!-- <DialogDescription>
+                    Make changes to your profile here. Click save when you're done.
+                    </DialogDescription> -->
+                </DialogHeader>
+                <div class="grid gap-4 py-4">
+                    <div class="grid grid-cols-4 items-center gap-4">
+                    <Label for="username" class="text-right">
+                        Username
+                    </Label>
+                    <Input id="username" value="" class="col-span-3" />
+                    </div>
+                    <div class="grid grid-cols-4 items-center gap-4">
+                    <Label for="avatar" class="text-right">
+                        Avatar
+                    </Label>
+                    <Input id="avatar" type="file" class="col-span-3" />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button type="submit" @click="saveProfile">
+                        保存
+                    </Button>
+                </DialogFooter>
+                </DialogContent>
+            </Dialog>
             <Button variant="destructive" @click="logout">
                 登出
             </Button>
