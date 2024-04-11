@@ -32,7 +32,7 @@ const switchTheme = () => {
 	<header class="w-full flex justify-center">
 		<nav class="box-border justify-between flex flex-row items-center h-16 mx-0 lg:mx-auto  w-full lg:w-7/12">
 			<div class="flex my-0 mx-[16px] justify-center items-center">
-				<router-link class="block text-2xl font-bold" to="/">
+				<router-link class="block text-2xl font-bold" to="/home">
 					Post
 				</router-link>
 				<ul class="hidden flex-row mx-[16px] sm:flex">

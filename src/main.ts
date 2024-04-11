@@ -53,7 +53,8 @@ router.beforeEach(async (to, from, next) => {
             if(localStorage.getItem('sessionId')) {
                 await instance.get('http://localhost:9000/api/session', {
                     params: {
-                        sessionId: localStorage.getItem('sessionId')
+                        sessionId: localStorage.getItem('sessionId'),
+                        userId: localStorage.getItem('userId')
                     }
                 })
                 .then((res: any)  => {
