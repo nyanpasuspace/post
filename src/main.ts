@@ -7,9 +7,7 @@ import { instance } from '@/api/instance'
 import { modifyUser } from "./api/modifyUser.js";
 
 const app = createApp(App);
-await modifyUser(localStorage.getItem('userId'), {
-    message: '哈喽啊'
-});
+
 router.beforeEach(async (to, from, next) => {
     if(to.meta.requireAuth) {
         if(localStorage.getItem('sessionId')) {

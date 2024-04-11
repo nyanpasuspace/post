@@ -1,4 +1,3 @@
-<!-- 登录后的主页 /home -->
 <script lang="ts">
 import {
   Select,
@@ -9,10 +8,13 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/toast/use-toast'
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Loader2 } from 'lucide-vue-next';
 import { Input } from '@/components/ui/input';
 import NavBar from '@/components/NavBar.vue';
 import InfoCard from '@/components/InfoCard.vue';
@@ -21,9 +23,15 @@ import Footer from '@/components/Footer.vue';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
-import { Loader2 } from 'lucide-vue-next'
+import { modifyUser } from '@/api/modifyUser';
 
 const messageIsDisabled = ref(true);
+const savingMessage = ref(false);
+const worldIsDisabled = ref(true);
+const timeIsDisabled = ref(false);
+const isMasatodonDisabled = ref(false);
+const { toast } = useToast();
+
 const sendTriggers: Record<string, string> = {
   Mastodon: 'mastodon',
   Twitter: 'twitter',
@@ -37,22 +45,31 @@ const userInfoForm = {
   mastodonInstance: '',
   mastodonToken: '',
   sendTime: 0,
-  status: ''
+  isLive: true,
 }
+const mastodonForm = {
+  mastodonInstance: '',
+  mastodonToken: ''
+}
+
 
 export default {
   setup() {
     const route = useRoute();
     const currentPath = ref(route.path);
-
     watch(route, () => {
       currentPath.value = route.path;
     });
     return {
       currentPath,
       messageIsDisabled,
+      savingMessage,
+      worldIsDisabled,
+      timeIsDisabled,
       sendTriggers,
       sendTriggerValue,
+      isMasatodonDisabled,
+      toast
     };
   },
   data() {
@@ -60,6 +77,7 @@ export default {
       userInfo: null as any,
       status: '',
       userInfoForm,
+      mastodonForm
     }
   },
   mounted() {
@@ -73,39 +91,194 @@ export default {
       this.userInfo = res.data;
       if(this.userInfo) {
         if(this.userInfo.data[0].is_live) {
-          this.userInfoForm.status = 'online';
+          this.userInfoForm.isLive = true;
         }
         else {
-          this.status = 'offline'
+          this.userInfoForm.isLive = false;
         }
         this.userInfoForm.username = this.userInfo.data[0].username;
         this.userInfoForm.avatarUrl = this.userInfo.data[0].avatar_url;
         this.userInfoForm.message = this.userInfo.data[0].message;
-        this.userInfoForm.isSendToWorld = this.userInfo.data[0].is_send_to_world;
+
+        if(this.userInfo.data[0].is_send_to_world) {
+          console.log(this.userInfo.data[0].is_send_to_world);
+        console.log(typeof(this.userInfo.data[0].is_send_to_world));
+          this.userInfoForm.isSendToWorld = true;
+        }
+        else {
+          this.userInfoForm.isSendToWorld = false;
+        }
         this.userInfoForm.mastodonInstance = this.userInfo.data[0].mastodon_instance;
+        this.mastodonForm.mastodonInstance = this.userInfo.data[0].mastodon_instance;
         this.userInfoForm.mastodonToken = this.userInfo.data[0].mastodon_token;
+        this.mastodonForm.mastodonToken = this.userInfo.data[0].mastodon_token;
         this.userInfoForm.sendTime = this.userInfo.data[0].send_time;
       }
     })
     .catch((error: any) => {
-      console.log(error.name);
+      console.log(error.message);
       this.userInfo = null;
     });
+    if(this.userInfoForm.isLive) {
+      this.status =  'online';
+    }
+    else {
+      this.status = 'offline';
+    }
   },
   methods: {
     editMessage: () => {
       messageIsDisabled.value = false;
+      worldIsDisabled.value = false;
     },
 
-    saveMessage: () => {
+    saveMessage: async () => {
       messageIsDisabled.value = true;
+      worldIsDisabled.value = true;
+      savingMessage.value = true;
+      const data = {
+        message: userInfoForm.message,
+        isSendToWorld: userInfoForm.isSendToWorld,
+      }
+      await modifyUser(
+        localStorage.getItem('userId'), 
+        data
+      )
+      .then((res: any)=> {
+        console.log(res);
+        if(!res) {
+          toast({
+            description: '出现错误',
+            variant: 'destructive',
+            duration: 600 * 5
+          });
+        }
+        else {
+          userInfoForm.message = data.message;
+          userInfoForm.isSendToWorld = data.isSendToWorld;
+          if(res.status == 200) {
+            toast({
+              description: '保存成功',
+              duration: 600 * 5
+            });
+          }
+          else {
+            toast({
+              description: '服务器错误',
+              duration: 600 * 5
+            });
+          } 
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        toast({
+          description: '出现错误',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
+      })
+      setTimeout(() => {
+        savingMessage.value = false;
+      }, 1000)
     },
 
-    setTimmer: () => {
-
+    setTimmer: async () => {
+      const data = {
+        sendTime: userInfoForm.sendTime
+      };
+      timeIsDisabled.value = true;
+      await modifyUser(
+        localStorage.getItem('userId'),
+        data
+      )
+      .then((res: any) => {
+        if(!res) {
+          toast({
+            description: '出现错误',
+            variant: 'destructive',
+            duration: 600 * 5
+          });
+        }
+        else {
+          if(res.status == 200) {
+            userInfoForm.sendTime = data.sendTime;
+            toast({
+              description: '保存成功',
+              duration: 600 * 5
+            });
+          }
+          else {
+            toast({
+              description: '服务器错误',
+              variant: 'destructive',
+              duration: 600 * 5
+            });
+          }
+        }
+      })
+      .catch((error: any)=> {
+        console.log(error.message);
+        toast({
+          description: '出现错误',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
+      })
+      setTimeout(() => {
+        timeIsDisabled.value = false;
+      }, 1000)
     },
     setSendToWorldStatus: () => {
-      console.log(typeof(userInfoForm.avatarUrl));
+      userInfoForm.isSendToWorld = !userInfoForm.isSendToWorld;
+    },
+    setMastodon: async () => {
+      const data = {
+        mastodonInstance: mastodonForm.mastodonInstance,
+        mastodonToken: mastodonForm.mastodonToken
+      };
+      isMasatodonDisabled.value = true;
+      await modifyUser(
+        localStorage.getItem('userId'),
+        data
+      )
+      .then((res: any) => {
+        if(!res) {
+          toast({
+            description: '出现错误',
+            variant: 'destructive',
+            duration: 600 * 5
+          });
+        }
+        else {
+          if(res.status == 200) {
+            userInfoForm.mastodonInstance = data.mastodonInstance;
+            userInfoForm.mastodonToken = data.mastodonToken;
+            toast({
+              description: '保存成功',
+              duration: 600 * 5
+            });
+          }
+          else {
+            toast({
+              description: '服务器错误',
+              variant: 'destructive',
+              duration: 600 * 5
+            });
+          }
+        }
+      })
+      .catch((error: any)=> {
+        console.log(error.message);
+        toast({
+          description: '出现错误',
+          variant: 'destructive',
+          duration: 600 * 5
+        });
+      })
+      setTimeout(() => {
+        isMasatodonDisabled.value = false;
+      }, 1000)
     }
   },
   components: {
@@ -120,12 +293,13 @@ export default {
     Separator,
     Textarea,
     Label,
+    Toaster,
     Checkbox,
     Input,
     NavBar,
     InfoCard,
     MastodonSetting,
-    Footer
+    Footer,
   }
 }
 </script>
@@ -147,7 +321,7 @@ export default {
           <Textarea id="message" :placeholder="userInfoForm.message" :disabled="messageIsDisabled" v-model="userInfoForm.message"/>
           <div class="h-12 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
-              <Checkbox id="terms" :checked="userInfoForm.isSendToWorld" @change="setSendToWorldStatus()" />
+              <Checkbox id="terms" :defaultChecked="userInfoForm.isSendToWorld" @update:checked="setSendToWorldStatus" :disabled="worldIsDisabled" />
               <Label for="terms" class="truncate">
                 发送到此站世界线
               </Label>
@@ -156,8 +330,9 @@ export default {
               <Button variant="secondary" @click="editMessage">
                 编辑
               </Button>
-              <Button @click="saveMessage">
-                保存
+              <Button @click="saveMessage" :disabled="messageIsDisabled">
+                <Loader2 v-if="savingMessage" class="w-4 h-4 mr-2 animate-spin" />
+                  保存
               </Button>
             </div>
           </div>
@@ -190,7 +365,13 @@ export default {
           <div class="flex flex-col pt-[10px]" v-if="sendTriggers[sendTriggerValue] == 'mastodon'">
             <!-- 实例 URL 和用户 Token -->
             <!-- TODO 授权使用 -->
-            <MastodonSetting :mastodonInstance="userInfoForm.mastodonInstance" :mastodonToken="userInfoForm.mastodonToken" />
+            <MastodonSetting
+              :isMastodonDisabled="isMasatodonDisabled"
+              :instancePlaceholder="mastodonForm.mastodonInstance"
+              :tokenPlaceholder="mastodonForm.mastodonToken"
+              :mastodonForm="mastodonForm"
+              :setMastodon="setMastodon"
+            />
           </div>
           <!-- <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
             twitter
@@ -206,9 +387,10 @@ export default {
               发送时间设置
             </Label>
             <div class="flex pt-[10px]">
-              <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfoForm.sendTime" v-model="userInfoForm.sendTime" />
+              <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfoForm.sendTime" v-model="userInfoForm.sendTime" :disabled="timeIsDisabled"/>
               <div class="relative text-muted-foreground top-[8px] -left-[30px]">天</div>
-              <Button class="ml-0" @click="setTimmer">
+              <Button class="ml-0" @click="setTimmer" :disabled="timeIsDisabled">
+                <Loader2 v-if="timeIsDisabled" class="w-4 h-4 mr-2 animate-spin" />
                 保存
               </Button>
             </div>
@@ -227,6 +409,7 @@ export default {
     </main>
     <Footer />
   </div>
+  <Toaster />
 </template>
 
 <style scoped></style>

@@ -70,6 +70,7 @@
     // console.log(value);
     var loginStatus;
     var sessionId = '';
+    var userId = '';
     await instance.post('/login', {
       username: value.username,
       password: value.password
@@ -78,6 +79,7 @@
       if(res.status == 200) {
         loginStatus = 200;
         sessionId = res.data.sessionId;
+        userId = res.data.userid;
       }
       else {
         loginStatus = res.status;
@@ -90,6 +92,7 @@
     })
     if(loginStatus == 200) {
       localStorage.setItem('sessionId', sessionId);
+      localStorage.setItem('userId', userId);
       router.replace({path:'/home'});
     }
     else if(loginStatus == 401) {

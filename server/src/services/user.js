@@ -12,6 +12,7 @@ class UserService {
 
     async modify({ id, values, logging }) {
         const target = await User.findByPk(id);
+        console.log(values);
         if(!target) {
             return null;
         }
