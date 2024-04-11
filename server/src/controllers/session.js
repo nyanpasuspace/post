@@ -10,8 +10,9 @@ class SessionController {
   check = async (req, res) => {
     try {
       const sessionId = req.query.sessionId;
+      const userId = req.query.userId;
       if (sessionId) {
-        Session.findOne({
+        await Session.findOne({
           where: {
             sid: sessionId,
           },
@@ -22,11 +23,19 @@ class SessionController {
               code: 401,
               message: "Unauthorized??",
             });
-          } else {
+          }
+          else if(JSON.parse(data.dataValues.data).user.id == userId) {
             res.status(200);
             res.send({
               code: 200,
               message: "Pong!",
+            });
+          }
+          else {
+            res.status(401);
+            res.send({
+              code: 401,
+              message: "Unauthorized",
             });
           }
         });

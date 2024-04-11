@@ -4,7 +4,6 @@ import "./assets/index.css";
 import App from "./App.vue";
 import router from "./router/index.js";
 import { instance } from '@/api/instance'
-import { modifyUser } from "./api/modifyUser.js";
 
 const app = createApp(App);
 
@@ -13,7 +12,8 @@ router.beforeEach(async (to, from, next) => {
         if(localStorage.getItem('sessionId')) {
             await instance.get('/session', {
                 params: {
-                    sessionId: localStorage.getItem('sessionId')
+                    sessionId: localStorage.getItem('sessionId'),
+                    userId: localStorage.getItem('userId')
                 }
             })
             .then((res: any)  => {
@@ -21,6 +21,8 @@ router.beforeEach(async (to, from, next) => {
                     next();
                 }
                 else {
+                    localStorage.removeItem('sessionId');
+                    localStorage.removeItem('userId');
                     next({
                         path: '/'
                     });
@@ -28,12 +30,16 @@ router.beforeEach(async (to, from, next) => {
             })
             .catch((error: any) => {
                 console.log(error.message);
+                localStorage.removeItem('sessionId');
+                localStorage.removeItem('userId');
                 next({
                     path: '/'
                 });
             })
         }
         else {
+            localStorage.removeItem('sessionId');
+            localStorage.removeItem('userId');
             next({
                 path: '/'
             });
@@ -61,11 +67,15 @@ router.beforeEach(async (to, from, next) => {
                     }
                 })
                 .catch((error: any) => {
+                    localStorage.removeItem('sessionId');
+                    localStorage.removeItem('userId');
                     console.log(error.message);
                     next();
                 })
             }
             else {
+                localStorage.removeItem('sessionId');
+                localStorage.removeItem('userId');
                 next();
             }
         }
