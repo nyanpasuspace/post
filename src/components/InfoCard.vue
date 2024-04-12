@@ -16,7 +16,9 @@ import {
 defineProps<{ 
     username: string,
     status: string,
-    avatarUrl: string
+    avatarUrl: string,
+    changeAvatarFile: Function,
+    saveProfile: any
 }>()
 const logout = (() => {
     localStorage.removeItem('sessionId');
@@ -26,9 +28,6 @@ const logout = (() => {
 
 const editProfile = (() => {
     // TODO 弹出弹窗编辑基本资料
-})
-const saveProfile = (() => {
-
 })
 </script>
 
@@ -55,9 +54,9 @@ const saveProfile = (() => {
         <div class="h-14 grow flex flex-row pl-2 space-x-4 justify-end items-center text-center">
             <Dialog>
                 <DialogTrigger as-child>
-                    <Button variant="secondary" @click="editProfile">
+                    <!-- <Button variant="secondary" @click="editProfile">
                         编辑
-                    </Button>
+                    </Button> -->
                 </DialogTrigger>
                 <DialogContent class="sm:max-w-[425px]">
                 <DialogHeader>
@@ -77,11 +76,11 @@ const saveProfile = (() => {
                     <Label for="avatar" class="text-right">
                         Avatar
                     </Label>
-                    <Input id="avatar" type="file" class="col-span-3" />
+                    <Input id="avatar" type="file" accept="image/jpeg" @change="changeAvatarFile" class="col-span-3" />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type="submit" @click="saveProfile">
+                    <Button @click="saveProfile">
                         保存
                     </Button>
                 </DialogFooter>

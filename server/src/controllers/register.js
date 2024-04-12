@@ -2,7 +2,7 @@ const { Router } = require('express');
 const userService = require("../services/user");
 const createUserSchema = require("../moulds/user");
 const bcrypt = require('bcryptjs');
-
+const iconGenerater = require('../utils/avatar');
 class RegisterController {
     userService;
     async init() {
@@ -25,7 +25,7 @@ class RegisterController {
         }
         try {
             if(schemaInfo) {
-                const defaultAvatarURL = "http://localhost:9000/uploads/avatars/avatar.png"
+                const defaultAvatarURL = "data:image/png;base64," + iconGenerater(username);
                 const hashPassword = bcrypt.hashSync(req.body.password, 10);
                 const user = {
                     username: username,

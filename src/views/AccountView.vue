@@ -279,6 +279,13 @@ export default {
       setTimeout(() => {
         isMasatodonDisabled.value = false;
       }, 1000)
+    },
+    changeAvatarFile: async (event: any) => {
+      var files = event?.target.files[0];
+      console.log(files);
+    },
+    saveProfile: async () => {
+      console.log("saveFile");
     }
   },
   components: {
@@ -309,7 +316,7 @@ export default {
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
       <div class="mx-[16px]">
-        <InfoCard :username="userInfoForm.username" :status="status" :avatarUrl="userInfoForm.avatarUrl" />
+        <InfoCard :username="userInfoForm.username" :status="status" :changeAvatarFile="changeAvatarFile" :saveProfile="saveProfile" :avatarUrl="userInfoForm.avatarUrl" />
       </div>
       <div class="mx-[16px]">
         <Separator class="my-2" />
