@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const userService = require("../services/user");
-const { where } = require("sequelize");
 const Session = require("../models").Session;
+const mastodonTest = require('../utils/mastodonTest');
 class UserController {
   userService;
 
@@ -109,13 +109,14 @@ class UserController {
         })
       }
       else {
+        // TODO 使用 Yup 校验
         if(sessionDataJSON.user.id == userId) {
-          console.log(req.body.data);
-          if(req.body.data.message) {
+          // console.log(req.body.data);
+          if(typeof req.body.data.message !== 'undefined') {
             updateData.message = req.body.data.message;
           }
-          if(!req.body.data.isSendToWorld || req.body.data.isSendToWorld) {
-            console.log(req.body.data.isSendToWorld);
+          if(typeof req.body.data.isSendToWorld !== 'undefined') {
+            // console.log(req.body.data.isSendToWorld);
             if(!req.body.data.isSendToWorld) {
               updateData.is_send_to_world = 0;
             }
@@ -123,14 +124,32 @@ class UserController {
               updateData.is_send_to_world = 1;
             }
           }
-          if(req.body.data.mastodonInstance) {
-            updateData.mastodon_instance = req.body.data.mastodonInstance;
+          if(typeof req.body.data.mastodonInstance !== 'undefined' && typeof req.body.data.mastodonToken !== 'undefined') {
+            if(await mastodonTest(req.body.data.mastodonInstance, req.body.data.mastodonToken)) {
+              updateData.mastodon_instance = req.body.data.mastodonInstance;
+              updateData.mastodon_token = req.body.data.mastodonToken;
+            }
+            else {
+              res.status(400).send({
+                code: 400,
+                message: '请求错误'
+              });
+              return;
+            }
           }
-          if(req.body.data.mastodonToken) {
-            updateData.mastodon_token = req.body.data.mastodonToken;
-          }
-          if(req.body.data.sendTime) {
-            updateData.send_time = req.body.data.sendTime;
+          if(typeof req.body.data.sendTime !== 'undefined') {
+            const tempData = Object.assign({}, req.body.data);
+            if(Number(tempData.sendTime.sendTime,10) !== NaN && Number.isInteger(tempData.sendTime / 1) && tempData.sendTime / 1 >= 1 && tempData.sendTime / 1 <= 36500) {
+              updateData.send_time = req.body.data.sendTime;
+            }
+            else {
+              console.log(typeof(tempData.sendTime));
+              res.status(400).send({
+                code: 400,
+                message: '请求错误'
+              });
+              return;
+            }
           }
           if(await this.userService.modify({
             id: userId,

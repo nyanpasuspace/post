@@ -24,6 +24,7 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
 import { modifyUser } from '@/api/modifyUser';
+import { isPostfixUnaryExpression } from 'typescript';
 
 const messageIsDisabled = ref(true);
 const savingMessage = ref(false);
@@ -127,6 +128,11 @@ export default {
     }
   },
   methods: {
+    isPositiveIntegerLessThan3650(str: string): boolean {
+      const regex = /^\d+$/;
+      const number = parseInt(str, 10);
+      return regex.test(str) && number > 0 && number <= 3650;
+    },
     editMessage: () => {
       messageIsDisabled.value = false;
       worldIsDisabled.value = false;
@@ -195,7 +201,7 @@ export default {
       .then((res: any) => {
         if(!res) {
           toast({
-            description: '出现错误',
+            description: '时间只能为大于等于 1 小于 3650的整数',
             variant: 'destructive',
             duration: 600 * 5
           });
@@ -210,7 +216,7 @@ export default {
           }
           else {
             toast({
-              description: '服务器错误',
+              description: '服务器错误，时间只能大于等于 1 小于 3650',
               variant: 'destructive',
               duration: 600 * 5
             });
