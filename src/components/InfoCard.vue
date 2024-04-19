@@ -26,9 +26,9 @@ const logout = (() => {
     router.push('/');
 });
 
-const editProfile = (() => {
-    // TODO 弹出弹窗编辑基本资料
-})
+// const editProfile = (() => {
+//     // TODO 弹出弹窗编辑基本资料
+// })
 </script>
 
 <template>

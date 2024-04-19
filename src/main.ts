@@ -7,7 +7,7 @@ import { instance } from '@/api/instance'
 
 const app = createApp(App);
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
     if(to.meta.requireAuth) {
         if(localStorage.getItem('sessionId')) {
             await instance.get('/session', {
