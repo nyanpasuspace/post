@@ -19,7 +19,18 @@ class UserService {
         target.set(values);
         return await target.save({ logging });
     }
-
+    async getPublicMessage({ logging }) {
+        const targetUser = await User.findAll({
+            where: {
+                is_live: 0,
+                is_send_to_world: 1,
+            }
+        });
+        if(!targetUser) {
+            return null;
+        }
+        return targetUser;
+    }
 }
 
 // 单例模式

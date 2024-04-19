@@ -75,6 +75,7 @@ export default {
   data() {
     return {
       userInfo: null as any,
+      loading: true,
       status: '',
       userInfoForm,
       mastodonForm
@@ -114,6 +115,7 @@ export default {
         this.mastodonForm.mastodonToken = this.userInfo.data[0].mastodon_token;
         this.userInfoForm.sendTime = this.userInfo.data[0].send_time;
       }
+      this.loading = false;
     })
     .catch((error: any) => {
       console.log(error.message);
@@ -317,9 +319,9 @@ export default {
 </script>
 
 <template>
-  <div v-if="userInfo" class="flex box-border min-h-screen w-full flex-col">
+  <div v-if="!loading" class="flex box-border min-h-screen w-full flex-col">
     <NavBar />
-    <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
+    <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
       <div class="mx-[16px]">
         <InfoCard :username="userInfoForm.username" :status="status" :changeAvatarFile="changeAvatarFile" :saveProfile="saveProfile" :avatarUrl="userInfoForm.avatarUrl" />
       </div>
@@ -414,7 +416,7 @@ export default {
   </div>
   <div v-else class="flex box-border min-h-screen w-full flex-col">
     <NavBar />
-    <main class="flex box-border flex-col mx-0 lg:mx-auto  w-full lg:w-7/12">
+    <main class="flex box-border flex-col mx-0 lg:mx-auto min-h-[500px] w-full lg:w-7/12">
       <div class="flex h-[100px] mx-auto items-center">
         <Loader2 class="w-4 h-4 mr-2 animate-spin" />
       </div>

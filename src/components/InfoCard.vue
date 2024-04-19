@@ -35,17 +35,17 @@ const editProfile = (() => {
     <div class="flex items-center space-x-2 pl-2 pt-2 pb-2 pr-0 w-full h-18 rounded-md text-foreground">
         <div class="flex h-14 w-14 items-center justify-center">
             <Avatar class="w-full min-w-[50px] h-auto">
-                <AvatarImage :src="avatarUrl" alt="@radix-vue" />
+                <AvatarImage :src="avatarUrl" :alt="username" />
                 <AvatarFallback>{{ username }}</AvatarFallback>
             </Avatar>
         </div>
         <div class="max-w-[150px] w-full h-14 flex flex-col justify-between">
-            <div class="h-7 align-top p-1 text-foreground text-lg align-bottom truncate">
+            <div class="h-7 p-1 text-foreground text-lg align-bottom truncate">
                 <span>
                     {{ username }}
                 </span>
             </div>
-            <div class="h-7 align-top p-1 text-slate-400 text-sm align-baseline truncate">
+            <div class="h-7 align-top p-1 text-slate-400 text-sm truncate">
                 <span>
                     {{ status }}
                 </span>

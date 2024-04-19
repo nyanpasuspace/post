@@ -13,9 +13,6 @@ defineProps<{
     mastodonToken: string,
   }
 }>();
-const test = () => {
-  console.log("???")
-}
 </script>
 
 <template>
