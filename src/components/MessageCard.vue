@@ -27,10 +27,12 @@ defineProps<{
     <!-- 用户 Message -->
     <!-- TODO vue-markdown 渲染器 -->
     <div class="mt-[20px]">
-        {{ userData.message }}
+        <v-md-preview class="p-[0px]" :text="userData.message"></v-md-preview>
     </div>
   </div>
 </template>
-<style scoped>
-
+<style>
+.github-markdown-body {
+    padding: 0 !important;
+}
 </style>

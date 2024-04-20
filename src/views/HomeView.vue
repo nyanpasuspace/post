@@ -3,6 +3,7 @@
 import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
 import MessageCard from '@/components/MessageCard.vue';
+import { Loader2 } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
@@ -18,6 +19,7 @@ export default {
   data() {
     return {
       messageData: null as any,
+      loading: true
     }
   },
   mounted() {
@@ -34,7 +36,8 @@ export default {
     .catch((error: any) => {
       console.log(error.name);
       return null;
-    });
+    })
+    this.loading = false;
   },
   methods: {
 
@@ -42,19 +45,26 @@ export default {
   components: {
     NavBar,
     Footer,
-    MessageCard
+    MessageCard,
+    Loader2
   }
 }
-
-
 </script>
 
 <template>
   <div class="flex box-border min-h-screen w-full flex-col bg-background">
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
-      <div class="mx-[16px] p-[15px] my-[10px] bg-secondary rounded-sm" v-for="item in messageData" :key="item.id">
-        <MessageCard :userData="item" />
+      <div v-if="!loading">
+        <div v-if="messageData" class="mx-[16px] p-[15px] my-[10px] bg-secondary rounded-sm" v-for="item in messageData" :key="item.id">
+          <MessageCard :userData="item" />
+        </div>
+        <div v-else class="mx-[16px] my-[10px]">
+          这里什么也没有～
+        </div>
+      </div>
+      <div v-else class="flex h-[100px] mx-auto items-center">
+        <Loader2 class="w-4 h-4 mr-2 animate-spin" />
       </div>
     </main>
     <Footer />
