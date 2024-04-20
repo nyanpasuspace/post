@@ -20,12 +20,14 @@ defineProps<{
                 {{ userData.username }}
             </div>
             <div class="align-baseline text-slate-400 text-sm truncate">
-                Offline
+                <span>Offline</span>
+                <!-- 虽然一般显示在此页的都是 offline 用户 :D -->
+                <!-- <span v-if="userData.is_live">Online</span>
+                <span v-else>Offline</span> -->
             </div>
         </div>
     </div>
     <!-- 用户 Message -->
-    <!-- TODO vue-markdown 渲染器 -->
     <div class="mt-[20px]">
         <v-md-preview class="p-[0px]" :text="userData.message"></v-md-preview>
     </div>

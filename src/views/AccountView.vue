@@ -102,8 +102,8 @@ export default {
         this.userInfoForm.message = this.userInfo.data[0].message;
 
         if(this.userInfo.data[0].is_send_to_world) {
-          console.log(this.userInfo.data[0].is_send_to_world);
-        console.log(typeof(this.userInfo.data[0].is_send_to_world));
+          // console.log(this.userInfo.data[0].is_send_to_world);
+          // console.log(typeof(this.userInfo.data[0].is_send_to_world));
           this.userInfoForm.isSendToWorld = true;
         }
         else {
