@@ -14,7 +14,7 @@ async function toot(instance, token) {
 // 本地环境测试中，clash 使用 TUN 模式添加白名单
 module.exports = async function mastodonTest(instance, token) {
     try {
-        await toot(this.instance, this.token);
+        await toot(instance, token);
         return true;
     }
     catch(error) {
