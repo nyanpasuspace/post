@@ -2,10 +2,23 @@
 import { Search } from 'lucide-vue-next'
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue';
+import router from '@/router/index';
+import SearchView from '@/views/SearchView.vue';
 const query = ref('')
 const search = () => {
 	// TODO 搜索 searchQuery
-	console.log(query.value);
+  // console.log(query.value);
+  try {
+    router.push({
+      path: '/search',
+      query: {
+        query: query.value
+      }
+    });
+  }
+  catch(e: any) {
+    console.log(e.message);
+  }
 }
 </script>
 

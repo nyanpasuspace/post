@@ -90,7 +90,7 @@ export default {
     })
     .then((res: any) => {
       this.userInfo = res.data;
-      console.log(this.userInfo.data[0].is_live);
+      // console.log(this.userInfo.data[0].is_live);
       if(this.userInfo) {
         if(this.userInfo.data[0].is_live) {
           this.userInfoForm.isLive = true;

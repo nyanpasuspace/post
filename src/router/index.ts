@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import LoginView from '@/views/LoginView.vue';
 import AccountView from '@/views/AccountView.vue';
+import SearchView from '@/views/SearchView.vue';
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -29,6 +30,14 @@ const router = createRouter({
                 requireAuth: true
             }
         },
+        {
+            path: '/search',
+            name: 'search',
+            component: SearchView,
+            meta: {
+                requireAuth: true
+            }
+        }
     ]
 });
 

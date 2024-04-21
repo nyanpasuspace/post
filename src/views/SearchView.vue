@@ -1,4 +1,4 @@
-<!-- 登录后的主页 /home -->
+<!-- 登录后的搜索页 /search -->
 <script lang="ts">
 import NavBar from '@/components/NavBar.vue';
 import Footer from '@/components/Footer.vue';
@@ -9,8 +9,9 @@ import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
 
 export default {
-  props: {
-    query: String,
+  async beforeRouteUpdate (to, from) {
+    this.query = to.query.query;
+    this.fetchData();
   },
   setup() {
     const route = useRoute();
@@ -20,13 +21,21 @@ export default {
     });
   },
   data() {
+    var query;
+    if(typeof this.$route.query.query == 'undefined') {
+        query = '';
+    }
+    else {
+        query = this.$route.query.query;
+    }
     return {
       messageData: null as any,
-      loading: true
+      loading: true,
+      query,
     }
   },
   mounted() {
-    instance.get(`/message`, {
+    instance.get(`/message/${this.query}`, {
       params: {
         sessionId: localStorage.getItem('sessionId'),
         userId: localStorage.getItem('userId'),
@@ -48,7 +57,28 @@ export default {
     this.loading = false;
   },
   methods: {
-
+    fetchData() {
+      instance.get(`/message/${this.query}`, {
+        params: {
+          sessionId: localStorage.getItem('sessionId'),
+          userId: localStorage.getItem('userId'),
+        }
+      })
+      .then((res: any) => {
+        if(res.data.data.length !== 0) {
+          this.messageData = res.data.data;
+        }
+        else {
+          this.messageData = null;
+        }
+        return res.data;
+      })
+      .catch((error: any) => {
+        console.log(error.name);
+        return null;
+      })
+      this.loading = false;
+    }
   },
   components: {
     NavBar,
@@ -63,6 +93,9 @@ export default {
   <div class="flex box-border min-h-screen w-full flex-col bg-background">
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
+      <div class="mx-[16px]">
+        {{ query }} 的搜索结果：
+      </div>
       <div v-if="!loading">
         <div v-if="messageData" class="mx-[16px] p-[15px] my-[10px] bg-secondary rounded-sm" v-for="item in messageData" :key="item.id">
           <MessageCard :userData="item" />

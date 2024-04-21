@@ -1,5 +1,5 @@
 const { User } = require('../models');
-
+const { Op, Sequelize } = require("sequelize");
 class UserService {
     async init() {}
     async find({ id, where, logging }) {
@@ -25,12 +25,31 @@ class UserService {
         target.set(values);
         return await target.save({ logging });
     }
+
+    async getSpecialMessage({ query, logging }) {
+        const targetUser = await User.findAll({
+            where: {
+                is_live: 0,
+                is_send_to_world: 1,
+                message: {
+                    [Op.substring]: `${query}`
+                }
+            },
+            logging
+        });
+        if(!targetUser) {
+            return null;
+        }
+        return targetUser;
+    }
+
     async getPublicMessage({ logging }) {
         const targetUser = await User.findAll({
             where: {
                 is_live: 0,
                 is_send_to_world: 1,
-            }
+            },
+            logging
         });
         if(!targetUser) {
             return null;
