@@ -2,8 +2,14 @@ const { User } = require('../models');
 
 class UserService {
     async init() {}
-    async find({ id, logging }) {
-        return [await User.findByPk(id, { logging })];
+    async find({ id, where, logging }) {
+        if(id) {
+            return [await User.findByPk(id, { logging })];
+        }
+        return await User.findAll({
+            where,
+            logging
+        })
     }
 
     async create({ user, logging }) {
@@ -12,7 +18,7 @@ class UserService {
 
     async modify({ id, values, logging }) {
         const target = await User.findByPk(id);
-        console.log(values);
+        // console.log(values);
         if(!target) {
             return null;
         }

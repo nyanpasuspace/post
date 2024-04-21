@@ -24,6 +24,7 @@
     "lodash.merge": "^4.6.2",
     "masto": "^6.7.2",
     "morgan": "^1.10.0",
+    "node-schedule": "^2.1.1",
     "on-finished": "^2.4.1",
     "path": "^0.12.7",
     "sequelize": "^6.37.2",

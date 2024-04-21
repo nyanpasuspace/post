@@ -3,7 +3,8 @@ const { createRestAPIClient } =  require('masto');
 async function toot(instance, token) {
     const masto = createRestAPIClient({
         url: instance,
-        accessToken: token
+        accessToken: token,
+        timeout: 1000 * 10
     })
     const status = await masto.v1.statuses.create({
         status: "Hello from #mastojs!",

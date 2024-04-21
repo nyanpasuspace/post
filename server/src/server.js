@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { promisify } = require('util');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const initSchedules = require('./schedules');
 const initControllers = require('./controllers');
 const initMiddlewares = require('./middlewares');
 const logger = require('./utils/logger');
@@ -22,6 +23,7 @@ async function bootstrap() {
     server.use(await initMiddlewares());
     server.use(express.static(publicDir));
     server.use(await initControllers());
+    await initSchedules();
     await promisify(server.listen.bind(server, port))();
     logger.info(`> Started on http://localhost:${port}`);
 }
