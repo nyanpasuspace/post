@@ -23,8 +23,8 @@ const search = () => {
 </script>
 
 <template>
-  <div class="relative w-full max-w-[200px] items-center">
-    <Input v-model="query" @keyup.enter="search" id="search" type="text" placeholder="Search..."  class="apperance-none rounded-none focus-visible:ring-0 pl-10" />
+  <div class="relative w-full items-center">
+    <Input v-model="query" @keyup.enter="search" id="search" type="text" placeholder="Search..."  class="apperance-none w-full rounded-none focus-visible:ring-0 pl-10" />
     <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
       <Search class="size-5 text-muted-foreground" />
     </span>
