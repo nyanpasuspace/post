@@ -30,7 +30,12 @@ export default {
       }
     })
     .then((res: any) => {
-      this.messageData = res.data.data;
+      if(res.data.data.length !== 0) {
+        this.messageData = res.data.data;
+      }
+      else {
+        this.messageData = null;
+      }
       return res.data;
     })
     .catch((error: any) => {

@@ -20,10 +20,10 @@ defineProps<{
                 {{ userData.username }}
             </div>
             <div class="align-baseline text-slate-400 text-sm truncate">
-                <span>Offline</span>
+                <span>offline</span>
                 <!-- 虽然一般显示在此页的都是 offline 用户 :D -->
-                <!-- <span v-if="userData.is_live">Online</span>
-                <span v-else>Offline</span> -->
+                <!-- <span v-if="userData.is_live">online</span>
+                <span v-else>offline</span> -->
             </div>
         </div>
     </div>

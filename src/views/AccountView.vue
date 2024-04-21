@@ -399,7 +399,7 @@ export default {
           <div class="flex flex-col pt-[20px]">
             <!-- 触发器：设置时间 -->
             <Label for="terms" class="truncate">
-              发送时间设置
+              计划发送时间设置
             </Label>
             <div class="flex pt-[10px]">
               <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfoForm.sendTime" v-model="userInfoForm.sendTime" :disabled="timeIsDisabled"/>
