@@ -19,6 +19,7 @@ const router = createRouter({
             name: 'home',
             component: HomeView,
             meta: {
+                title: 'Home',
                 requireAuth: true
             }
         },
@@ -27,6 +28,7 @@ const router = createRouter({
             name: 'account',
             component: AccountView,
             meta: {
+                title: 'Account',
                 requireAuth: true
             }
         },
@@ -35,6 +37,7 @@ const router = createRouter({
             name: 'search',
             component: SearchView,
             meta: {
+                title: 'Search',
                 requireAuth: true
             }
         }

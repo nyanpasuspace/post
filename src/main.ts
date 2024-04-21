@@ -17,6 +17,9 @@ VMdPreview.use(githubTheme, {
 const app = createApp(App);
 
 router.beforeEach(async (to, _from, next) => {
+    if(to.meta.title && typeof to.meta.title == 'string') {
+        document.title = to.meta.title + ' | ' + 'Post';
+    }
     if(to.meta.requireAuth) {
         if(localStorage.getItem('sessionId')) {
             await instance.get('/session', {

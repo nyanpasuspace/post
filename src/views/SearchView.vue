@@ -9,7 +9,7 @@ import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
 
 export default {
-  async beforeRouteUpdate (to, from) {
+  async beforeRouteUpdate (to, _from) {
     this.query = to.query.query;
     this.fetchData();
   },
