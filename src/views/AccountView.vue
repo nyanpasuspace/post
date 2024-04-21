@@ -90,6 +90,7 @@ export default {
     })
     .then((res: any) => {
       this.userInfo = res.data;
+      console.log(this.userInfo.data[0].is_live);
       if(this.userInfo) {
         if(this.userInfo.data[0].is_live) {
           this.userInfoForm.isLive = true;
@@ -115,18 +116,18 @@ export default {
         this.mastodonForm.mastodonToken = this.userInfo.data[0].mastodon_token;
         this.userInfoForm.sendTime = this.userInfo.data[0].send_time;
       }
+      if(this.userInfoForm.isLive) {
+        this.status =  'online';
+      }
+      else {
+        this.status = 'offline';
+      }
       this.loading = false;
     })
     .catch((error: any) => {
       console.log(error.message);
       this.userInfo = null;
     });
-    if(this.userInfoForm.isLive) {
-      this.status =  'online';
-    }
-    else {
-      this.status = 'offline';
-    }
   },
   methods: {
     isPositiveIntegerLessThan3650(str: string): boolean {
