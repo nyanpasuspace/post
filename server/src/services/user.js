@@ -4,10 +4,17 @@ class UserService {
     async init() {}
     async find({ id, where, logging }) {
         if(id) {
-            return [await User.findByPk(id, { logging })];
+            return [await User.findOne({
+                attributes: { exclude: ['password'] },
+                where: {
+                    id: id
+                },
+                logging
+            })];
         }
         return await User.findAll({
-            where,
+            attributes: { exclude: ['password'] },
+            where: where,
             logging
         })
     }
@@ -23,11 +30,15 @@ class UserService {
             return null;
         }
         target.set(values);
-        return await target.save({ logging });
+        return await target.save({
+            attributes: { exclude: ['password'] },
+            logging
+        });
     }
 
     async getSpecialMessage({ query, logging }) {
         const targetUser = await User.findAll({
+            attributes: { exclude: ['password'] },
             where: {
                 is_live: 0,
                 is_send_to_world: 1,
@@ -45,6 +56,7 @@ class UserService {
 
     async getPublicMessage({ logging }) {
         const targetUser = await User.findAll({
+            attributes: { exclude: ['password'] },
             where: {
                 is_live: 0,
                 is_send_to_world: 1,
