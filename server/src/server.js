@@ -18,6 +18,19 @@ async function bootstrap() {
       methods: ['GET', 'POST', 'PUT'],
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
     }));
+    server.use(helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", 'unsafe-inline'],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https://lab.nyanpasu.space/'],
+        connectSrc: ["'self'"],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+      }      
+    }));
     server.use(bodyParser.json());
     // parse application/x-www-form-urlencoded
     server.use(bodyParser.urlencoded({ extended: false }));

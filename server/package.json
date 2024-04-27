@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "fs": "^0.0.1-security",
+    "helmet": "^7.1.0",
     "identicon": "^3.1.1",
     "lodash.merge": "^4.6.2",
     "masto": "^6.7.2",
