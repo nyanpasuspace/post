@@ -14,8 +14,9 @@ const publicDir = resolve('public');
 
 async function bootstrap() {
     server.use(cors({
-      origin:[process.env.WEB, 'http://localhost:5173'],
-      methods:['GET','POST','PUT'],
+      origin: [process.env.WEB, 'http://localhost:5173'],
+      methods: ['GET', 'POST', 'PUT'],
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
     }));
     server.use(bodyParser.json());
     // parse application/x-www-form-urlencoded
