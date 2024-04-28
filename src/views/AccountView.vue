@@ -24,14 +24,14 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { instance } from '@/api/instance';
 import { modifyUser } from '@/api/modifyUser';
-
+import i18n from '@/i18n';
 const messageIsDisabled = ref(true);
 const savingMessage = ref(false);
 const worldIsDisabled = ref(true);
 const timeIsDisabled = ref(false);
 const isMasatodonDisabled = ref(false);
 const { toast } = useToast();
-
+const { t } = i18n.global;
 const sendTriggers: Record<string, string> = {
   Mastodon: 'mastodon',
   Twitter: 'twitter',
@@ -156,7 +156,7 @@ export default {
         console.log(res);
         if(!res) {
           toast({
-            description: '出现错误',
+            description: `${t('account.saveMessageError')}`,
             variant: 'destructive',
             duration: 600 * 5
           });
@@ -166,13 +166,13 @@ export default {
           userInfoForm.isSendToWorld = data.isSendToWorld;
           if(res.status == 200) {
             toast({
-              description: '保存成功',
+              description: `${t('account.saveMessageSuccess')}`,
               duration: 600 * 5
             });
           }
           else {
             toast({
-              description: '服务器错误',
+              description: `${t('account.saveMessageServerError')}`,
               duration: 600 * 5
             });
           } 
@@ -181,7 +181,7 @@ export default {
       .catch((error) => {
         console.log(error.message);
         toast({
-          description: '出现错误',
+          description: `${t('account.saveMessageError')}`,
           variant: 'destructive',
           duration: 600 * 5
         });
@@ -203,7 +203,7 @@ export default {
       .then((res: any) => {
         if(!res) {
           toast({
-            description: '时间只能为大于等于 1 小于 3650的整数',
+            description: `${t('account.saveTimeInfo')}`,
             variant: 'destructive',
             duration: 600 * 5
           });
@@ -212,13 +212,13 @@ export default {
           if(res.status == 200) {
             userInfoForm.sendTime = data.sendTime;
             toast({
-              description: '保存成功',
+              description: `${t('account.saveTimeSuccess')}`,
               duration: 600 * 5
             });
           }
           else {
             toast({
-              description: '服务器错误，时间只能大于等于 1 小于 3650',
+              description: `${t('account.saveServerError')}`,
               variant: 'destructive',
               duration: 600 * 5
             });
@@ -228,7 +228,7 @@ export default {
       .catch((error: any)=> {
         console.log(error.message);
         toast({
-          description: '出现错误',
+          description: `${t('account.saveTimeInfo')}`,
           variant: 'destructive',
           duration: 600 * 5
         });
@@ -253,7 +253,7 @@ export default {
       .then((res: any) => {
         if(!res) {
           toast({
-            description: '出现错误',
+            description: `${t('account.mastodonError')}`,
             variant: 'destructive',
             duration: 600 * 5
           });
@@ -263,13 +263,13 @@ export default {
             userInfoForm.mastodonInstance = data.mastodonInstance;
             userInfoForm.mastodonToken = data.mastodonToken;
             toast({
-              description: '保存成功',
+              description: `${t('account.mastodonSuccess')}`,
               duration: 600 * 5
             });
           }
           else {
             toast({
-              description: '服务器错误',
+              description: `${t('account.mastodonServerError')}`,
               variant: 'destructive',
               duration: 600 * 5
             });
@@ -279,7 +279,7 @@ export default {
       .catch((error: any)=> {
         console.log(error.message);
         toast({
-          description: '出现错误',
+          description: `${t('account.mastodonError')}`,
           variant: 'destructive',
           duration: 600 * 5
         });
@@ -330,24 +330,24 @@ export default {
         <Separator class="my-2" />
       </div>
       <div class="flex flex-col mx-[16px] my-2">
-        <div class="flex flex-col w-full gap-3">
+        <div class="flex flex-col w-full gap-2">
           <!-- 发送消息设置 -->
-          <Label for="message">预设消息</Label>
+          <Label for="message">{{ $t('account.message') }}</Label>
           <Textarea id="message" :placeholder="userInfoForm.message" :disabled="messageIsDisabled" v-model="userInfoForm.message"/>
           <div class="h-12 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
               <Checkbox id="terms" :defaultChecked="userInfoForm.isSendToWorld" @update:checked="setSendToWorldStatus" :disabled="worldIsDisabled" />
-              <Label for="terms" class="truncate">
-                发送到此站世界线
+              <Label for="terms">
+                {{ $t('account.isSendToWorld') }}
               </Label>
             </div>
             <div class="flex items-center pl-2 space-x-4">
               <Button variant="secondary" @click="editMessage">
-                编辑
+                {{ $t('account.editMessage') }}
               </Button>
               <Button @click="saveMessage" :disabled="messageIsDisabled">
                 <Loader2 v-if="savingMessage" class="w-4 h-4 mr-2 animate-spin" />
-                  保存
+                {{ $t('account.saveMessage') }}
               </Button>
             </div>
           </div>
@@ -358,8 +358,8 @@ export default {
         <div>
           <!-- 发送设置 -->
           <div class="flex items-center justify-between space-x-2">
-            <Label for="terms" class="truncate">
-              检测平台设置
+            <Label for="terms">
+              {{ $t('account.heartbeatSetting') }}
             </Label>
             <Select v-model="sendTriggerValue">
               <SelectTrigger class="w-[150px]">
@@ -399,15 +399,15 @@ export default {
         <div>
           <div class="flex flex-col pt-[20px]">
             <!-- 触发器：设置时间 -->
-            <Label for="terms" class="truncate">
-              计划发送时间设置
+            <Label for="terms">
+              {{ $t('account.sendTimeSetting') }}
             </Label>
             <div class="flex pt-[10px]">
               <Input class="w-full pr-[33px]" id="sendTime" type="text" :placeholder="userInfoForm.sendTime" v-model="userInfoForm.sendTime" :disabled="timeIsDisabled"/>
-              <div class="relative text-muted-foreground top-[8px] -left-[30px]">天</div>
+              <div class="relative text-muted-foreground top-[8px] -left-[30px]">{{ $t('account.timeSettingUnit') }}</div>
               <Button class="ml-0" @click="setTimmer" :disabled="timeIsDisabled">
                 <Loader2 v-if="timeIsDisabled" class="w-4 h-4 mr-2 animate-spin" />
-                保存
+                {{ $t('account.saveTimeSetting') }}
               </Button>
             </div>
           </div>

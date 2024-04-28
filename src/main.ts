@@ -9,6 +9,7 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 import hljs from 'highlight.js';
+import i18n from '@/i18n/index.js';
 
 VMdPreview.use(githubTheme, {
     Hljs: hljs,
@@ -95,5 +96,6 @@ router.beforeEach(async (to, _from, next) => {
     }
 });
 app.use(VMdPreview);
+app.use(i18n);
 app.use(router);
 app.mount("#app");

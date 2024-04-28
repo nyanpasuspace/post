@@ -55,7 +55,7 @@ const editProfile = (() => {
             <Dialog>
                 <DialogTrigger as-child>
                     <Button variant="secondary" @click="editProfile">
-                        编辑
+                        {{ $t('account.editAccount') }}
                     </Button>
                 </DialogTrigger>
                 <DialogContent class="sm:max-w-[425px]">
@@ -87,7 +87,7 @@ const editProfile = (() => {
                 </DialogContent>
             </Dialog>
             <Button variant="destructive" @click="logout">
-                登出
+                {{ $t('account.logoutAccount') }}
             </Button>
         </div>
     </div>

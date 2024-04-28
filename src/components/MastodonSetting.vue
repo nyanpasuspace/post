@@ -18,14 +18,14 @@ defineProps<{
 <template>
   <div class="flex flex-col items-center space-y-3 mb-2">
     <div class="flex flex-col w-full space-y-2">
-      <Label for="message">Mastodon 实例</Label>
+      <Label for="message">{{ $t('account.mastodonSettingInstance') }}</Label>
       <Input id="mastodon-instance" type="text" :placeholder="instancePlaceholder" v-model="mastodonForm.mastodonInstance" :disabled="isMastodonDisabled" />
     </div>
     <div class="flex flex-col w-full space-y-2">
       <Label for="message">
-        Mastodon Token
+        {{ $t('account.mastodonSettingToken') }}
           <a href="https://docs.joinmastodon.org/" class="text-blue-500 hover:underline" target="_blank">
-            查看如何获取 Token
+            {{ $t('account.mastodonHint') }}
           </a>
       </Label>
       <Input id="mastodon-instance" type="text" :placeholder="tokenPlaceholder" v-model="mastodonForm.mastodonToken" :disabled="isMastodonDisabled" />
@@ -33,11 +33,11 @@ defineProps<{
     <div class="flex  items-center w-full space-x-4">
       <Button @click="setMastodon" :disabled="isMastodonDisabled">
         <Loader2 v-if="isMastodonDisabled" class="w-4 h-4 mr-2 animate-spin" />
-        保存设置
+        {{ $t('account.saveMastodon') }}
       </Button>
       <Button variant="secondary" @click="" :disabled="isMastodonDisabled">
         <Loader2 v-if="isMastodonDisabled" class="w-4 h-4 mr-2 animate-spin" />
-        清空设置
+        {{ $t('account.resetMastodon') }}
       </Button>
     </div>
   </div>

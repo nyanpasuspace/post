@@ -1,0 +1,55 @@
+export default {
+    index: {
+        register: '注册',
+        login: '登录',
+        username: '用户名',
+        password: '密码',
+        usernameMinInfo: '用户名至少为 2 个字符',
+        usernameMaxInfo: '用户名最长为 15 个字符',
+        passwordMinInfo: '密码至少为 6 位',
+        passwordMaxInfo: '密码最多不超过 20 位',
+        passwordRexInfo: '密码只能包含字母数字和 ~!@#%^&()_+=-.',
+        loginErrorInfo1: '用户名或密码错误',
+        loginErrorInfo2: '服务器错误',
+        registerErrorInfo1: '用户名已存在',
+        registerErrorInfo2: '服务器错误'
+    },
+    navbar: {
+        home: '世界线',
+        account: '个人',
+        search: '搜索'
+    },
+    home: {
+        emptyContent: '这里什么也没有～',
+    },
+    search: {
+        title: '的搜索结果',
+        emptyContent: '这里什么也没有～',
+    },
+    account: {
+        message: '预设消息',
+        isSendToWorld: '发送到此站世界线',
+        editAccount: '编辑',
+        logoutAccount: '登出',
+        editMessage: '编辑',
+        saveMessage: '保存',
+        saveMessageError: '出现错误',
+        saveMessageServerError: '服务器错误',
+        saveMessageSuccess: '保存成功',
+        heartbeatSetting: '检测平台设置',
+        mastodonSettingInstance: 'Mastodon 实例',
+        mastodonSettingToken: 'Mastodon Token',
+        mastodonHint: '查看如何获取 Token',
+        mastodonError: '出现错误',
+        mastodonSuccess: '保存成功',
+        mastodonServerError: '服务器错误',
+        saveMastodon: '保存设置',
+        resetMastodon: '清空设置',
+        sendTimeSetting: '发送时间设置',
+        saveTimeSetting: '保存',
+        timeSettingUnit: '天',
+        saveTimeInfo: '时间只能为大于等于 1 小于 3650 的整数',
+        saveTimeServerError: '服务器错误',
+        saveTimeSuccess: '保存成功',
+    }
+}

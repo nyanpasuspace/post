@@ -68,7 +68,7 @@ export default {
           <MessageCard :userData="item" />
         </div>
         <div v-else class="mx-[16px] my-[10px]">
-          这里什么也没有～
+          {{ $t('home.emptyContent') }}
         </div>
       </div>
       <div v-else class="flex h-[100px] mx-auto items-center">

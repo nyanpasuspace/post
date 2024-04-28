@@ -94,6 +94,7 @@ export default {
     <NavBar />
     <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
       <div class="mx-[16px]">
+        <!-- TODO 适应国际化 -->
         {{ query }} 的搜索结果：
       </div>
       <div v-if="!loading">
@@ -101,7 +102,7 @@ export default {
           <MessageCard :userData="item" />
         </div>
         <div v-else class="mx-[16px] my-[10px]">
-          这里什么也没有～
+          {{ $t('search.emptyContent') }}
         </div>
       </div>
       <div v-else class="flex h-[100px] mx-auto items-center">

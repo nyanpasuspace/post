@@ -1,0 +1,55 @@
+export default {
+    index: {
+        register: 'Register',
+        login: 'Login',
+        username: 'Username',
+        password: 'Password',
+        usernameMinInfo: 'Username must be at least 2 characters.',
+        usernameMaxInfo: 'Username must not be longer than 15 characters.',
+        passwordMinInfo: 'Password must be at least 6 characters.',
+        passwordMaxInfo: 'Password must not be longer than 20 characters.',
+        passwordRexInfo: 'Password must only contain letters, numbers, and ~!@#%^&()_+=-.',
+        loginErrorInfo1: 'The username or password is wrong.',
+        loginErrorInfo2: 'Server error.',
+        registerErrorInfo1: 'The username already exists.',
+        registerErrorInfo2: 'server error.'
+    },
+    navbar: {
+        home: 'Explore',
+        account: 'Account',
+        search: 'Search'
+    },
+    home: {
+        emptyContent: 'There\'s nothing here~',
+    },
+    search: {
+        title: 'Search result for',
+        emptyContent: 'There\'s nothing here~',
+    },
+    account: {
+        message: 'Predefined Message',
+        isSendToWorld: 'Send to world line',
+        editAccount: 'Edit',
+        logoutAccount: 'Logout',
+        editMessage: 'Edit',
+        saveMessage: 'Save',
+        saveMessageError: 'Error occurs',
+        saveMessageServerError: 'Server error',
+        saveMessageSuccess: 'Save successfully',
+        heartbeatSetting: 'Heartbeat Setting',
+        mastodonSettingInstance: 'Mastodon Instance',
+        mastodonSettingToken: 'Mastodon Token',
+        mastodonHint: 'How to get Token',
+        mastodonError: 'Error occurs',
+        mastodonSuccess: 'Save successfully',
+        mastodonServerError: 'Server error',
+        saveMastodon: 'Save',
+        resetMastodon: 'Reset',
+        sendTimeSetting: 'Send Time Setting',
+        saveTimeSetting: 'Save',
+        timeSettingUnit: 'D',
+        saveTimeInfo: 'Time can only be an integer greater than or equal to 1 less than 3650',
+        saveTimeServerError: 'Server error',
+        saveTimeSuccess: 'Save successfully',
+    }
+}

@@ -2,10 +2,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useColorMode } from '@vueuse/core'
-import SearchBar from '@/components/SearchBar.vue'
-import { HamburgerMenuIcon, SunIcon, MoonIcon, Cross1Icon, ChevronRightIcon } from '@radix-icons/vue'
-import { Button } from '@/components/ui/button'
+import { useColorMode } from '@vueuse/core';
+import SearchBar from '@/components/SearchBar.vue';
+import { HamburgerMenuIcon, SunIcon, MoonIcon, Cross1Icon, ChevronRightIcon } from '@radix-icons/vue';
+import { Button } from '@/components/ui/button';
 const route = useRoute();
 const currentPath = ref(route.path);
 const theme = useColorMode();
@@ -44,7 +44,7 @@ const switchTheme = () => {
 								'border-b-2': currentPath === '/home',
 								'border-current': currentPath === '/home',
 							}">
-								世界线
+								{{ $t('navbar.home') }}
 							</span>
 						</router-link>
 					</li>
@@ -55,7 +55,7 @@ const switchTheme = () => {
 								'border-b-2': currentPath === '/account',
 								'border-current': currentPath === '/account',
 							}">
-								个人
+								{{ $t('navbar.account') }}
 							</span>
 						</router-link>
 					</li>
@@ -88,7 +88,7 @@ const switchTheme = () => {
 						<router-link to="/home">
 							<div class="flex h-12 flex-row justify-between text-center items-center pr-[16px]">
 								<span>
-									世界线
+									{{ $t('navbar.home') }}
 								</span>
 								<ChevronRightIcon class="h-4 w-4" />
 							</div>
@@ -98,7 +98,7 @@ const switchTheme = () => {
 						<router-link to="/account">
 							<div class="flex h-12 flex-row justify-between text-center items-center pr-[16px]">
 								<span>
-									个人
+									{{ $t('navbar.account') }}
 								</span>
 								<ChevronRightIcon class="h-4 w-4" />
 							</div>

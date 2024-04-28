@@ -2,6 +2,8 @@
   import { instance } from '@/api/instance'
   import { GithubLogoIcon } from '@radix-icons/vue'
   import { Button } from '@/components/ui/button'
+  import i18n from '@/i18n/index';
+  
   import {
     Card,
     CardContent,
@@ -30,6 +32,7 @@
   } from '@/components/ui/form'
   import router from '@/router/index'
   const { toast } = useToast();
+  const { t } = i18n.global;
   const loginForm = reactive({
     username: '',
     password: ''
@@ -44,21 +47,21 @@
     username: z
       .string()
       .min(2, {
-        message: 'Username must be at least 2 characters.',
+        message: `${t('index.usernameMinInfo')}`
       })
       .max(15, {
-        message: 'Username must not be longer than 15 characters.',
+        message: `${t('index.usernameMaxInfo')}`
       }),
     password: z
       .string()
       .min(6, {
-        message: 'Password must be at least 6 characters.',
+        message: `${t('index.passwordMinInfo')}`
       })
       .max(20, {
-        message: 'Password must not be longer than 20 characters.'
+        message: `${t('index.passwordMaxInfo')}`
       })
       .regex(/^[a-zA-Z0-9~!@#%^&()_+=-]*$/, {
-        message: `Password must only contain letters, numbers, and ~!@#%^&()_+=-.`,
+        message: `${t('index.passwordRexInfo')}`
       }),
   }))
 
@@ -97,14 +100,14 @@
     }
     else if(loginStatus == 401) {
       toast({
-        description: 'The username or password is wrong.',
+        description: `${t('index.loginErrorInfo1')}`,
         variant: 'destructive',
         duration: 600 * 5
       });
     }
     else {
       toast({
-        description: 'The username or password is wrong.',
+        description: `${t('index.loginErrorInfo2')}`,
         variant: 'destructive',
         duration: 600 * 5
       });
@@ -156,22 +159,14 @@
         // console.log(registerStatus);
         // console.log('用户名已存在');
         toast({
-          description: 'The username already exists.',
-          variant: 'destructive',
-          duration: 600 * 5
-        });
-      }
-      else if(registerStatus == 500) {
-        // console.log('服务器错误');
-        toast({
-          description: 'Internal server error.',
+          description: `${t('index.registerErrorInfo1')}`,
           variant: 'destructive',
           duration: 600 * 5
         });
       }
       else {
         toast({
-          description: 'Internal server error.',
+          description: `${t('index.registerErrorInfo2')}`,
           variant: 'destructive',
           duration: 600 * 5
         });
@@ -184,10 +179,10 @@
   <Tabs default-value="login" class="w-auto sm:w-[400px]">
     <TabsList class="grid w-full grid-cols-2">
       <TabsTrigger value="login">
-        Login
+        {{ $t('index.login') }}
       </TabsTrigger>
       <TabsTrigger value="register">
-        Register
+        {{ $t('index.register') }}
       </TabsTrigger>
     </TabsList>
     <TabsContent value="login">
@@ -202,7 +197,7 @@
           <form class="w-full space-y-3" @submit="login">
             <FormField v-model="loginForm.username" name="username">
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{{ $t('index.username') }}</FormLabel>
                 <FormControl>
                   <Input id="username" type="text" placeholder="username" v-model="loginForm.username"/>
                 </FormControl>
@@ -211,13 +206,13 @@
             </FormField>
             <FormField v-model="loginForm.password" name="password">
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{{ $t('index.password') }}</FormLabel>
                 <FormControl>
                   <Input id="password" type="password" v-model="loginForm.password"/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
-              <Button class="w-full" type="submit">Login</Button>
+              <Button class="w-full" type="submit">{{ $t('index.login') }}</Button>
             </FormField>
           </form>
           <div class="relative">
@@ -258,7 +253,7 @@
           <form class="w-full space-y-3" @submit="register">
             <FormField v-model="registerForm.username" name="username">
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>{{ $t('index.username') }}</FormLabel>
                 <FormControl>
                   <Input id="username" type="text" placeholder="username" v-model="registerForm.username" />
                 </FormControl>
@@ -267,13 +262,13 @@
             </FormField>
             <FormField v-model="registerForm.password" name="password">
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{{ $t('index.password') }}</FormLabel>
                 <FormControl>
                   <Input id="password" type="password" v-model="registerForm.password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
-              <Button class="w-full" type="submit">Register</Button>
+              <Button class="w-full" type="submit">{{ $t('index.register') }}</Button>
             </FormField>
           </form>
           <div class="relative">
