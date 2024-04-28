@@ -7,7 +7,7 @@ const initSchedules = require('./schedules');
 const initControllers = require('./controllers');
 const initMiddlewares = require('./middlewares');
 const logger = require('./utils/logger');
-
+const helmet = require('helmet');
 const server = express();
 const port = parseInt(process.env.PORT || '9000');
 const publicDir = resolve('public');

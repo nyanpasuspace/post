@@ -359,7 +359,7 @@ export default {
           <!-- 发送设置 -->
           <div class="flex items-center justify-between space-x-2">
             <Label for="terms" class="truncate">
-              发送平台设置
+              检测平台设置
             </Label>
             <Select v-model="sendTriggerValue">
               <SelectTrigger class="w-[150px]">
@@ -370,9 +370,9 @@ export default {
                   <SelectItem value="Mastodon">
                     Mastodon
                   </SelectItem>
-                  <!-- <SelectItem value="Twitter">
+                  <SelectItem value="Twitter">
                     Twitter
-                  </SelectItem> -->
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -388,9 +388,12 @@ export default {
               :setMastodon="setMastodon"
             />
           </div>
-          <!-- <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
+          <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
             twitter
-          </div> -->
+          </div>
+          <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'email'">
+
+          </div>
           <div class="flex flex-col pt-[10px]" v-else>
 
           </div>
