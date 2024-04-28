@@ -391,13 +391,11 @@ export default {
           <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'twitter'">
             twitter
           </div>
-          <div class="flex flex-col pt-[10px]" v-else-if="sendTriggers[sendTriggerValue] == 'email'">
-
-          </div>
           <div class="flex flex-col pt-[10px]" v-else>
 
           </div>
         </div>
+        <!-- TODO 转发设置 -->
         <div>
           <div class="flex flex-col pt-[20px]">
             <!-- 触发器：设置时间 -->
