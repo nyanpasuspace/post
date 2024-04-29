@@ -322,7 +322,7 @@ export default {
 <template>
   <div v-if="!loading" class="flex box-border min-h-screen w-full flex-col">
     <NavBar />
-    <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
+    <main class="flex box-border flex-col mx-0 xl:mx-auto min-w-[360px] min-h-[500px] w-full xl:w-7/12">
       <div class="mx-[16px]">
         <InfoCard :username="userInfoForm.username" :status="status" :changeAvatarFile="changeAvatarFile" :saveProfile="saveProfile" :avatarUrl="userInfoForm.avatarUrl" />
       </div>
@@ -418,7 +418,7 @@ export default {
   </div>
   <div v-else class="flex box-border min-h-screen w-full flex-col">
     <NavBar />
-    <main class="flex box-border flex-col mx-0 lg:mx-auto min-h-[500px] w-full lg:w-7/12">
+    <main class="flex box-border flex-col mx-0 xl:mx-auto min-h-[500px] w-full xl:w-7/12">
       <div class="flex h-[100px] mx-auto items-center">
         <Loader2 class="w-4 h-4 mr-2 animate-spin" />
       </div>

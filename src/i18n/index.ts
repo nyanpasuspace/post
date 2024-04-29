@@ -3,12 +3,17 @@ import zhCN from './zh-cn';
 import jaJP from './ja-jp';
 import { createI18n } from 'vue-i18n'
 
+var defalutLanguage = localStorage.getItem('lang') || 'zh-cn';
+if(defalutLanguage !== 'en' && defalutLanguage !== 'zh-cn' && defalutLanguage !== 'ja-jp') {
+    defalutLanguage = 'zh-cn';
+}
 const i18n = createI18n({
-    locale: 'en',
+    locale: defalutLanguage,
+    fallbackLocale: 'en',
     messages: {
         'en': en,
         'zh-cn': zhCN,
-        'jp': jaJP,
+        'ja-jp': jaJP,
     }
 });
 

@@ -62,7 +62,7 @@ export default {
 <template>
   <div class="flex box-border min-h-screen w-full flex-col bg-background">
     <NavBar />
-    <main class="flex box-border flex-col mx-0 lg:mx-auto min-w-[350px] min-h-[500px] w-full lg:w-7/12">
+    <main class="flex box-border flex-col mx-0 xl:mx-auto min-w-[360px] min-h-[500px] w-full xl:w-7/12">
       <div v-if="!loading">
         <div v-if="messageData" class="mx-[16px] p-[15px] my-[10px] bg-secondary rounded-sm" v-for="item in messageData" :key="item.id">
           <MessageCard :userData="item" />

@@ -188,7 +188,7 @@
     <TabsContent value="login">
       <Card>
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>{{ $t('index.login') }}</CardTitle>
           <!-- <CardDescription>
             Enter your infomation to login.
           </CardDescription> -->
@@ -244,7 +244,7 @@
     <TabsContent value="register">
       <Card>
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>{{ $t('index.register') }}</CardTitle>
           <!-- <CardDescription>
             Enter your infomation to register.
           </CardDescription> -->
