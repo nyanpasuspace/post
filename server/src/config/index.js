@@ -17,7 +17,7 @@ const config = {
     },
     db: {
       dialect: "sqlite",
-      storage: "database/dev.db",
+      storage: "database/default.db",
       benchmark: true,
       logging: logging(logger, 'debug'),
       define: {
@@ -25,24 +25,23 @@ const config = {
       },
       migrationStorageTableName: "sequelize_meta",
     },
+  },
 
-    development: {
-      db: {
-        storage: "database/dev.db",
-      },
+  development: {
+    db: {
+      storage: "database/dev.db",
     },
+  },
 
-    test: {
-      db: {
-        storage: "database/test.db",
-      },
+  test: {
+    db: {
+      storage: "database/test.db",
     },
+  },
 
-    production: {
-      sessionCookieMaxAge: 3 * 24 * 60 * 60 * 1000,
-      db: {
-        storage: "database/index.db",
-      },
+  production: {
+    db: {
+      storage: "database/production.db",
     },
   },
 };
