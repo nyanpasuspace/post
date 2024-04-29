@@ -23,7 +23,7 @@ async function bootstrap() {
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", 'unsafe-inline'],
         scriptSrc: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'https://lab.nyanpasu.space/'],
+        imgSrc: ["'self'", 'data:'],
         connectSrc: ["'self'"],
         fontSrc: ["'self'"],
         objectSrc: ["'none'"],
