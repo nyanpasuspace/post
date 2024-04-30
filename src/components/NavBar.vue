@@ -101,9 +101,9 @@ const saveLang = () => {
 								<DropdownMenuRadioItem value="en">
 									English
 								</DropdownMenuRadioItem>
-								<!-- <DropdownMenuRadioItem value="ja-jp">
+								<DropdownMenuRadioItem value="ja-jp">
 									日本語
-								</DropdownMenuRadioItem> -->
+								</DropdownMenuRadioItem>
 							</DropdownMenuRadioGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
@@ -170,9 +170,9 @@ const saveLang = () => {
 											<DropdownMenuRadioItem value="en">
 												English
 											</DropdownMenuRadioItem>
-											<!-- <DropdownMenuRadioItem value="ja-jp">
+											<DropdownMenuRadioItem value="ja-jp">
 												日本語
-											</DropdownMenuRadioItem> -->
+											</DropdownMenuRadioItem>
 										</DropdownMenuRadioGroup>
 									</DropdownMenuContent>
 								</DropdownMenu>

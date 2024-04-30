@@ -3,13 +3,31 @@ import zhCN from './zh-cn';
 import jaJP from './ja-jp';
 import { createI18n } from 'vue-i18n'
 
-var defalutLanguage = localStorage.getItem('lang') || 'zh-cn';
-if(defalutLanguage !== 'en' && defalutLanguage !== 'zh-cn' && defalutLanguage !== 'ja-jp') {
-    defalutLanguage = 'zh-cn';
+// 浏览器默认语言列表参考 https://stackoverflow.com/questions/5580876/navigator-language-list-of-all-languages/36042028#36042028
+
+var defalutLanguage = navigator.language.substring(0, 2) || 'zh';
+var lang;
+if(localStorage.getItem('lang')) {
+    lang = localStorage.getItem('lang');
 }
+else {
+    if(defalutLanguage == 'zh') {
+        lang = 'zh-cn';
+    }
+    else if(defalutLanguage == 'en') {
+        lang = 'en';
+    }
+    else if(defalutLanguage == 'ja') {
+        lang = 'ja-jp';
+    }
+    else {
+        lang = 'zh-cn';
+    }
+    localStorage.setItem('lang', lang);
+}
+
 const i18n = createI18n({
-    locale: defalutLanguage,
-    fallbackLocale: 'en',
+    locale: lang!,
     messages: {
         'en': en,
         'zh-cn': zhCN,
