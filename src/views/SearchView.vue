@@ -94,8 +94,10 @@ export default {
     <NavBar />
     <main class="flex box-border flex-col mx-0 xl:mx-auto min-w-[360px] min-h-[500px] w-full xl:w-7/12">
       <div class="mx-[16px]">
-        <!-- TODO 适应国际化 -->
-        {{ query }} 的搜索结果：
+        <span v-if="$i18n.locale == 'zh-cn'">{{ query }} 的搜索结果：</span>
+        <span v-else-if="$i18n.locale == 'en'">The search result of {{ query }}</span>
+        <span v-else-if="$i18n.locale == 'ja-jp'">{{ query }} の検索結果：</span>
+        <span v-else>{{ query }} 的搜索结果：</span>
       </div>
       <div v-if="!loading">
         <div v-if="messageData" class="mx-[16px] p-[15px] my-[10px] bg-secondary rounded-sm" v-for="item in messageData" :key="item.id">
