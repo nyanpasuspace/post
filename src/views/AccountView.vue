@@ -334,7 +334,7 @@ export default {
           <!-- 发送消息设置 -->
           <Label for="message">{{ $t('account.message') }}</Label>
           <Textarea id="message" :placeholder="userInfoForm.message" :disabled="messageIsDisabled" v-model="userInfoForm.message"/>
-          <div class="h-12 grow flex flex-row pl-2 space-x-4 justify-between items-center text-center">
+          <div class="h-12 grow flex flex-row pl-1 space-x-4 justify-between items-center text-center">
             <div class="flex items-center space-x-2">
               <Checkbox id="terms" :defaultChecked="userInfoForm.isSendToWorld" @update:checked="setSendToWorldStatus" :disabled="worldIsDisabled" />
               <Label for="terms">
