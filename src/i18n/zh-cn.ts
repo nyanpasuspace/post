@@ -8,7 +8,7 @@ export default {
         usernameMaxInfo: '用户名最长为 15 个字符',
         passwordMinInfo: '密码至少为 6 位',
         passwordMaxInfo: '密码最多不超过 20 位',
-        passwordRexInfo: '密码只能包含字母数字和 ~!@#%^&()_+=-.',
+        passwordRexInfo: '密码只能包含字母数字和 ~!{\'@\'}#%^&()_+=-.',
         loginErrorInfo1: '用户名或密码错误',
         loginErrorInfo2: '服务器错误',
         registerErrorInfo1: '用户名已存在',

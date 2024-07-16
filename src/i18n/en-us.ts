@@ -8,7 +8,7 @@ export default {
         usernameMaxInfo: 'Username must not be longer than 15 characters.',
         passwordMinInfo: 'Password must be at least 6 characters.',
         passwordMaxInfo: 'Password must not be longer than 20 characters.',
-        passwordRexInfo: 'Password must only contain letters, numbers, and ~!@#%^&()_+=-.',
+        passwordRexInfo: 'Password must only contain letters, numbers, and ~!{\'@\'}#%^&()_+=-.',
         loginErrorInfo1: 'The username or password is wrong.',
         loginErrorInfo2: 'Server error.',
         registerErrorInfo1: 'The username already exists.',

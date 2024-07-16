@@ -8,7 +8,7 @@ export default {
         usernameMaxInfo: 'ユーザー名は 15 文字以内で入力してください。',
         passwordMinInfo: 'パスワードは 6 文字以上でなければなりません。',
         passwordMaxInfo: 'パスワードは 20 文字以内で入力してください。',
-        passwordRexInfo: 'パスワードには、文字、数字、および ~!@#%^&()_+=- しか含められません。',
+        passwordRexInfo: 'パスワードには、文字、数字、および ~!{\'@\'}#%^&()_+=- しか含められません。',
         loginErrorInfo1: 'ユーザー名かパスワードが間違っています。',
         loginErrorInfo2: 'サーバーエラー',
         registerErrorInfo1: 'ユーザー名はすでに存在しています。',
